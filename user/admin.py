@@ -8,7 +8,7 @@ User = get_user_model()
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id', 'username', 'email', 'free_mailing_list', 'paid_mailing_list', ]
-    list_filter = ['username', 'free_mailing_list', 'paid_mailing_list', ]
+    list_filter = ['username', 'email', 'free_mailing_list', 'paid_mailing_list', ]
     list_display_links = ['id', 'username', ]
     search_fields = ['username', 'id', 'email', 'free_mailing_list', 'paid_mailing_list', ]
     ordering = ['-id']
