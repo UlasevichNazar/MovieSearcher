@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.urls import reverse
 User = get_user_model()
 
 
@@ -44,6 +44,8 @@ class Movie(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+    def get_absolute_url(self):
+        return reverse("movie_detail", kwargs={"slug": self.slug})
     class Meta:
         verbose_name = 'Фильм'
         verbose_name_plural = 'Фильмы'
@@ -119,6 +121,8 @@ class Raiting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_of_rating', verbose_name='Пользователь')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_of_rating', verbose_name='Фильм')
     rating = models.PositiveSmallIntegerField('Оценка', validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+
 
     class Meta:
         verbose_name = 'Рейтинг'
