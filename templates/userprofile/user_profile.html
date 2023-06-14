@@ -1,9 +1,10 @@
+{% load static %}
 {% block content %}
 
     <div class="header-bar">
-        <h1>Profile</h
+        <h1>Profile</h1>
 
-            <a href="{% url 'tasks' %}">&#8592; Back</a>
+            <a href="{% url 'movie_list' %}">&#8592; Back</a>
 
     </div>
 
@@ -26,7 +27,7 @@
         {% endif %}
 
         {% if user.id == profile.user.id %}
-        <a href="{% url 'edit_user_profile' profile.id %}">
+        <a href="{% url 'movie_list' %}">
             <button class="button">Edit</button>
         </a>
         {% endif %}

@@ -27,4 +27,4 @@ class CreateProfilePageView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    success_url = reverse_lazy('tasks')
+    success_url = reverse_lazy('movie_list')
