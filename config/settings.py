@@ -28,6 +28,7 @@ INSTALLED_APPS += [
     'user',
     'movies',
     'userprofile',
+    'reg_login',
 ]
 
 MIDDLEWARE = [
