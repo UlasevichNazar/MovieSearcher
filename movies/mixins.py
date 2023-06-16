@@ -10,7 +10,7 @@ class PosterMixin:
 
 class LinkMixin:
     def get_link(self, obj, item, str_item: str, app_name: str):
-        link = reverse('admin:'+app_name + '_' + str_item + '_change', args=[item.pk])
+        link = reverse("admin:" + app_name + "_" + str_item + "_change", args=[item.pk])
         return format_html("<a href='{}'>{}</a>", link, item)
 
 
