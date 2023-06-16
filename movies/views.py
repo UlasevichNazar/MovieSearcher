@@ -1,9 +1,12 @@
 from django.db.models import Q
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.views import View
 from django.views import generic
 from django.db.models import Avg
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
+from .forms import AddReviewForm
 from . import models
 from .models import Genre, Raiting, Actor, Category, Movie
 
@@ -43,9 +46,19 @@ class MovieDetail(generic.DetailView):
         context['average_rating'] = average_rating
         return context
 
-def all_categories(request):
-    categories = Category.objects.all()
-    return render(request, 'include/header.html', {'categories': categories})
+
+class AddReview(View):
+    @method_decorator(login_required)
+    def post(self, request, pk):
+        form = AddReviewForm(request.POST)
+        movie = Movie.objects.get(id=pk)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.movie = movie
+            review.save()
+        return redirect(movie.get_absolute_url())
+
 
 
 # Фильтр фильмов

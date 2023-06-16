@@ -477,10 +477,54 @@ mark,
   content: "\2014 \00A0";
 }
 
+.media-container {
+display: none;
+margin-top: 10px;
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
 
+.menu-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu-button:hover {
+background-color: #45a049;
+}
+
+
+.review-block {
+    clear: both;
+}
+
+.review-block .media {
+    display: block;
+    clear: both;
+    margin-bottom: 20px;
+}
+
+
+.img_comment{
+    max-width: 10px;
+    max-height: 10px;
+
+}
 .img-fluid {
-  max-width: 100%;
-  height: auto;
+    max-width: 300px;
+    height: 300px;
+}
+
+.img-fluidd {
+  width: 100px;
+  height: 100px;
 }
 
 .img-shorts {
@@ -541,6 +585,8 @@ kbd kbd {
   font-size: 100%;
   font-weight: 700;
 }
+
+
 
 pre {
   display: block;
