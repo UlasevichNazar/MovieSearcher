@@ -291,7 +291,6 @@ li > a:only-child:after {
     /* Display Dropdown when clicked on Parent Lable */
     [id^=drop]:checked + ul {
         display: block;
-        background: rgba(16, 16, 16, 0.85);
         padding: 15px 0;
         text-align: center;
     }

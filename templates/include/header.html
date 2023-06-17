@@ -13,16 +13,15 @@
             <ul class="menu mt-2">
                 <li class="active"><a href="{% url 'movie_list' %}">Главная</a></li>
                 <li>
-                    <!-- First Tier Drop Down -->
-                    <label for="drop-2" class="toggle">Категории <span
-                            class="fa fa-angle-down" aria-hidden="true"></span> </label>
-                    <a href="#">Категории <span class="fa fa-angle-down"
-                                                aria-hidden="true"></span></a>
+
+                     <!-- First Tier Drop Down -->
+                    <label for="drop-2" class="toggle">Категории </label>
+                    <a href="#">Категории <span></span></a>
                     <input type="checkbox" id="drop-2">
-                    <ul>
-                        <li><a href="moviesingle.html">Фильмы</a></li>
-                        <li><a href="moviesingle.html">Сериалы</a></li>
-                        <li><a href="moviesingle.html">Мультфильмы</a></li>
+                    <ul style="background-color: #f2f2f2;">
+                        {% for category in categories %}
+                        <li ><a href="/" style="color: black;">{{ category.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li><a href="contact.html"

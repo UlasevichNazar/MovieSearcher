@@ -34,6 +34,11 @@ class MovieList(generic.ListView):
     queryset = model.objects.filter(status=model.Status.PUBLISHED)
     context_object_name = "movies"
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
 
 class MovieDetail(generic.DetailView):
     model = Movie
@@ -46,6 +51,7 @@ class MovieDetail(generic.DetailView):
             avg_rating=Avg("rating")
         )["avg_rating"]
         context["average_rating"] = average_rating
+        context['categories'] = Category.objects.all()
         return context
 
 
