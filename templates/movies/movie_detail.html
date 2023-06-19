@@ -14,7 +14,7 @@
         {% block movie %}
         <div class="left-ads-display col-lg-8">
             <div class="row">
-                    <img src="{{ movie.poster.url }}" class="img-fluid" alt="">
+                <img src="{{ movie.poster.url }}" class="img-fluid" alt="">
                 <div class="desc1-right col-md-6 pl-lg-10">
                     <h3 class="editContent" style="outline: none; cursor: inherit;">
                         {{ movie.title }}
@@ -155,5 +155,8 @@
             </div>
         </div>
     </div>
-    {% endblock movie %}
-
+    <div class="grid-img-right mt-4 text-right bg bg1">
+        {% include 'include/pagination.html' %}
+    </div>
+</div>
+{% endblock movie %}
