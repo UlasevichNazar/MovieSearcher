@@ -1,38 +1,62 @@
+{% extends 'base.html'%}
 {% load static %}
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
 {% block content %}
+<section class="ab-info-main py-md-5 py-4 editContent"
+         style="padding-left: 3rem; padding-right: 3rem;">
+    {% block container %}
+    <div class="container-fluid py-md-3">
+        {% endblock container %}
+        <div class="row">
+            <div class="container">
+                <div class="profile-card">
+                    <h2 class="text-center">Профиль пользователя</h2>
+                    {% if user.profile.profile_pic %}
+                    <img src="{{ profile.profile_pic.url }}" height=100 width=100><br><br>
+                    {% else %}
+                    <img src="{% static 'base\images\profile\user.png' %}" height=100 width=100><br><br>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="name">Имя:</label>
+                        <input type="text" id="name" class="form-control" value="{{ user.username }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" class="form-control" value="{{ user.email }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday">Дата рождения:</label>
+                        <input type="date" id="birthday" class="form-control" value="{{ profile.user.birthday }}"
+                               readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-login">Последний вход:</label>
+                        <div class="last-login">
+                            <p>{{ user.last_login }}</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="/user/edit_profile/" class="btn btn-primary">Редактировать профиль</a>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="https://www.instagram.com/your_username/" class="btn btn-primary" target="_blank">Посетить
+                            страницу
+                            в Instagram</a>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="/" class="btn btn-link">Вернуться на главную страницу</a>
+                    </div>
+                </div>
+            </div>
 
-    <div class="header-bar">
-        <h1>Profile</h1>
+            <!-- Подключение скриптов Bootstrap -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-            <a href="{% url 'movie_list' %}">&#8592; Back</a>
-
+        </div>
     </div>
-
-    <div class="card-body">
-        {% if user.profile.profile_pic %}
-        <img src="{{ profile.profile_pic.url }}" height=100 width=100><br><br>
-        {% else %}
-        <img src="{% static 'base\images\profile\user.png' %}" height=100 width=100><br><br>
-        {% endif %}
-        <p><strong>Username:</strong> {{ page_user }}</p><br><br>
-        <p><strong>Bio:</strong> {{ profile.bio }}</p><br><br>
-        {% if profile.twitter %}
-        <p><strong>Twitter:</strong> {{ profile.twitter }}</p><br><br>
-        {% endif %}
-        {% if profile.instagram %}
-        <p><strong>Instagram:</strong> {{ profile.instagram }}</p><br><br>
-        {% endif %}
-        {% if profile.facebook %}
-        <p><strong>Facebook:</strong> {{ profile.facebook }}</p><br><br>
-        {% endif %}
-
-        {% if user.id == profile.user.id %}
-        <a href="{% url 'movie_list' %}">
-            <button class="button">Edit</button>
-        </a>
-        {% endif %}
-
-
-    </div>
-
-{% endblock content %}
+</section>
+{% endblock %}
