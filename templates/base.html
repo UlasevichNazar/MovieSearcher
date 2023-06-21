@@ -22,6 +22,10 @@
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900"
           rel="stylesheet">
 
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
     <style>
   .menu-button {
     display: inline-block;
@@ -53,8 +57,43 @@
   width: 200px; /* Фиксированная ширина контейнера */
   word-wrap: break-word; /* Перенос текста на новую строку */
 }
+body {
+      padding-top: 40px;
+    }
+    .profile-card {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .profile-card h2 {
+      margin-bottom: 20px;
+    }
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+    .last-login {
+      margin-top: 0.1px;
+      padding: 10px;
+      border: 1px solid #ced4da;
+      background-color: #f1f1f1;
+    }
+    .form-control[readonly] {
+      background-color: #f8f9fa;
+    }
+    .my_form .form-control{
+        font-size: 12px;
+        height: 30px;
+        padding: 4px 8px;
+    }
   }
-</style>
+
+
+    </style>
 
 </head>
 <body>
@@ -64,6 +103,8 @@
     var container = document.getElementById("media-container");
     container.style.display = container.style.display === "none" ? "block" : "none";
   }
+
+
 
 </script>
 <div id="page" class="page">
