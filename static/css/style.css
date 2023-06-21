@@ -1253,12 +1253,12 @@ a.move-top span {
 
 @media(max-width:1366px) {
     .main-banner {
-        min-height: 45em;
+        min-height: 20-em;
     }
 
     .banner-info {
-        padding: 16em 0 0em 3em;
-        width: 38%;
+        padding: 10em 0 0em 2em;
+        width: 30%;
     }
 
     .service-content h4 {
