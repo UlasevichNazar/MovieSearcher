@@ -21,7 +21,13 @@ class PoiskList:
         return Category.objects.all()
 
     def get_years(self):
-        return Movie.objects.values_list("year", flat=True).distinct()
+        return list(
+            set(
+                Movie.objects.filter(status=Movie.Status.PUBLISHED)
+                .values_list("year", flat=True)
+                .distinct()
+            )
+        )
 
 
 # Список фильмов
@@ -51,6 +57,8 @@ class MovieDetail(PoiskList, generic.DetailView):
             avg_rating=Avg("rating")
         )["avg_rating"]
         context["average_rating"] = average_rating
+        context["movies"] = self.get_queryset().distinct()
+
         context["categories"] = Category.objects.all()
         return context
 
@@ -68,7 +76,6 @@ class AddReview(View):
         return redirect(movie.get_absolute_url())
 
 
-# Фильтр фильмов
 class FilterMovies(PoiskList, generic.ListView):
     def get_queryset(self):
         queryset = Movie.objects.all()
@@ -76,15 +83,32 @@ class FilterMovies(PoiskList, generic.ListView):
             queryset = queryset.filter(
                 category__in=self.request.GET.getlist("category")
             )
-        if "genre" in self.request.GET:
+        if "genre" in self.request.GET and self.request.GET.getlist("genre"):
             queryset = queryset.filter(genre__in=self.request.GET.getlist("genre"))
         if "year" in self.request.GET:
             queryset = queryset.filter(year__in=self.request.GET.getlist("year"))
-        return queryset.distinct()
+            print(queryset)
+        return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["movies"] = self.get_queryset()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["movies"] = self.get_queryset().distinct()
+        context["categories"] = Category.objects.all()
+        context["year"] = "".join([x for x in self.request.GET.getlist("year")])
+        context["genre"] = "".join([x for x in self.request.GET.getlist("genre")])
+        context["category"] = "".join([x for x in self.request.GET.getlist("category")])
+        print(context)
+        return context
+
+
+class Search(PoiskList, generic.ListView):
+    def get_queryset(self):
+        return Movie.objects.filter(title__iregex=self.request.GET.get("s"))
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["s"] = f'q={self.request.GET.get("s")}&'
+        context["movies"] = self.get_queryset().distinct()
         context["categories"] = Category.objects.all()
 
         return context
