@@ -34,7 +34,7 @@ class PoiskList:
 class MovieList(PoiskList, generic.ListView):
     model = models.Movie
     queryset = model.objects.filter(status=model.Status.PUBLISHED)
-    paginate_by = 1
+    paginate_by = 4
     context_object_name = "movies"
 
     def get_context_data(self, *args, **kwargs):

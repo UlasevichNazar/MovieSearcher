@@ -1257,12 +1257,12 @@ a.move-top span {
 
 @media(max-width:1366px) {
     .main-banner {
-        min-height: 20-em;
+        min-height: 2-em;
     }
 
     .banner-info {
-        padding: 10em 0 0em 2em;
-        width: 30%;
+        padding: 5em 0 0em 1em;
+        width: 20%;
     }
 
     .service-content h4 {
@@ -1286,7 +1286,7 @@ a.move-top span {
 
 @media(max-width:1080px) {
     .banner-info h3 {
-        font-size: 3em !important;
+        font-size: 2em !important;
         letter-spacing: 2px;
     }
 
@@ -1306,8 +1306,8 @@ a.move-top span {
 
 @media(max-width:1024px) {
     .banner-info {
-        padding: 14em 0 0em 3em;
-        width: 40%;
+        padding: 10em 0 0em 3em;
+        width: 20%;
     }
 
     .feature-grids h3,
@@ -1391,8 +1391,8 @@ a.move-top span {
     }
 
     .banner-info {
-        padding: 11em 0 0em 1em;
-        width: 44%;
+        padding: 10em 0 0em 1em;
+        width: 24%;
     }
 
     .main-banner {
@@ -1476,7 +1476,7 @@ a.move-top span {
     }
 
     .banner-info {
-        padding: 10em 0 0em 1em;
+        padding: 5em 0 0em 1em;
         width: 58%;
     }
 
