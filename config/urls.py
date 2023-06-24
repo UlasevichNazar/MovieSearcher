@@ -7,6 +7,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('movies.urls')),
     path('user/', include('userprofile.urls')),
+    
+
+    path("admin/", admin.site.urls),
+    path("", include("movies.urls")),
+    path("user/", include("userprofile.urls")),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
     path('reg/', include('reg_login.urls')),
 ]
 if settings.DEBUG:

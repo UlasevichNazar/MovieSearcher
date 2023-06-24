@@ -5,25 +5,31 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('movies', '0003_category_movie_category'),
+        ("movies", "0003_category_movie_category"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='genre',
-            name='slug',
-            field=models.SlugField(max_length=160, unique=True, verbose_name='URL'),
+            model_name="genre",
+            name="slug",
+            field=models.SlugField(max_length=160, unique=True, verbose_name="URL"),
         ),
         migrations.AlterField(
-            model_name='movie',
-            name='publish',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='Публикация'),
+            model_name="movie",
+            name="publish",
+            field=models.DateTimeField(
+                default=django.utils.timezone.now, verbose_name="Публикация"
+            ),
         ),
         migrations.AlterField(
-            model_name='movie',
-            name='status',
-            field=models.CharField(choices=[('DF', 'Черновик'), ('PB', 'Опубликовано')], default='DF', max_length=2, verbose_name='Статус'),
+            model_name="movie",
+            name="status",
+            field=models.CharField(
+                choices=[("DF", "Черновик"), ("PB", "Опубликовано")],
+                default="DF",
+                max_length=2,
+                verbose_name="Статус",
+            ),
         ),
     ]
