@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="text-center text-lg-start">
+    <style>
+    .reg-blank-login {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh
+      }
+
+
+
+    @media (max-width: 991.98px) {
+      .cascading-right {
+        margin-right: 0;
+      }
+    }
+
+
+
+    </style>
+
+
+    <!-- Jumbotron -->
+
+    <!-- Содержимое вашего <div> -->
+
+    <!--    <div class="container py-4" id="reg-blank-login">-->
+    <!--        <div class="row g-0 align-items-center">-->
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <!-- Содержимое вашего <div> -->
+
+        <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="card cascading-center" style="
+            background: hsla(0, 0%, 100%, 0.55);
+            backdrop-filter: blur(30px);
+            ">
+                <div class="card-body p-5 shadow-5 text-center">
+                    <h2 class="fw-bold mb-5">Войти</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{form.non_field_errors}}
+
+
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label">Логин</label>
+                            {{ form.username }}
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label">Пароль</label>
+                            {{ form.password }}
+
+                        </div>
+
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit"
+                                    class="btn btn-primary profile-button">
+                                Войти
+                            </button>
+
+
+                        </div>
+                        <p class="text-center text-muted mt-5 mb-0">У вас нет аккаунта? Нажмите кнопку<a
+                                href="{% url 'register' %}"
+                                class="fw-bold text-body"><u>Зарегестрироваться</u></a>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+            <!--            </div>-->
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+

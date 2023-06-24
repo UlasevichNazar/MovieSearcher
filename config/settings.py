@@ -33,6 +33,8 @@ INSTALLED_APPS += [
     "user",
     "movies",
     "userprofile",
+    "reg_login",
+
 ]
 
 MIDDLEWARE = [
@@ -114,6 +116,11 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'
 
 ##############################################################
 # SKEDITOR
@@ -262,3 +269,4 @@ CKEDITOR_CONFIGS = {
         ),
     }
 }
+
