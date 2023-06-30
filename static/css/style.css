@@ -499,6 +499,52 @@ a.btn.active {
     border: #10adfb;
 }
 
+.pressed-button {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 27px; /* Уменьшаем размер паддинга */
+  margin: 10px 20px;
+  border-radius: 30px;
+  background-image: linear-gradient(45deg, red 0%, black 100%);
+  background-position: 100% 0;
+  background-size: 200% 200%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px; /* Уменьшаем размер шрифта */
+  font-weight: 300;
+  color: white;
+  box-shadow: 0 10px 20px 0 rgba(0, 40, 120, .35); /* Уменьшаем размер тени */
+  transition: .5s;
+}
+
+.pressed-button:hover {
+  box-shadow: 0 0 0 0 rgba(0, 40, 120, 0);
+  background-position: 0 0;
+}
+
+.floating-button {
+  text-decoration: none;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 45px;
+  margin: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #524f4e;
+  background: white;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+  transition: .3s;
+}
+
+.gradient-button:hover {
+  background-position: right center;
+}
+
 /*-- //place holder --*/
 
 /*-- //banner --*/
