@@ -1,0 +1,47 @@
+version: "3.11"
+
+services:
+  redis:
+    image: redis
+    restart: always
+    env_file:
+      - .env/
+
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django
+    entrypoint: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env/
+    depends_on:
+      - postgres
+      - redis
+
+
+  postgres:
+    image: postgres
+    container_name: postgres_django
+    user: root
+    env_file:
+      - .env
+    volumes:
+      - moviesearcher-postgres-data:/var/lib/postgresql/data
+
+  celery:
+    build:
+      context: .
+    env_file:
+      - .env/
+    volumes:
+      - .:/app
+    command: celery -A config worker -B -l info
+    depends_on:
+      - redis
+volumes:
+  moviesearcher-postgres-data:

@@ -1,10 +1,10 @@
+from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator
 from django.db import models
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
+from django.utils import timezone
 
-User = get_user_model()
+from config import settings
 
 
 class AbstractModel(models.Model):
@@ -132,7 +132,10 @@ class Actor(AbstractModel):
 
 class Review(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user", verbose_name="Пользователь"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user",
+        verbose_name="Пользователь",
     )
     text = models.TextField("Текст")
     created = models.DateTimeField(auto_now_add=True)
@@ -150,7 +153,7 @@ class Review(models.Model):
 # Модель рейтинга
 class Raiting(models.Model):
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="user_of_rating",
         verbose_name="Пользователь",

@@ -1,5 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
 
+from userprofile.models import Profile
+
 
 class MyCustomManager(BaseUserManager):
     use_in_migrations = True
@@ -10,7 +12,6 @@ class MyCustomManager(BaseUserManager):
         username=None,
         password=None,
         free_mailing_list=None,
-        paid_mailing_list=None,
         **extra_fields
     ):
         if not username:
@@ -24,10 +25,10 @@ class MyCustomManager(BaseUserManager):
         user.set_password(password)
         if free_mailing_list:
             user.free_mailing_list = free_mailing_list
-        if paid_mailing_list:
-            user.paid_mailing_list = paid_mailing_list
 
+        Profile.objects.create(user=user)
         user.save(using=self._db)
+
         return user
 
     def create_user(
@@ -36,19 +37,13 @@ class MyCustomManager(BaseUserManager):
         username=None,
         password=None,
         free_mailing_list=None,
-        paid_mailing_list=None,
         **extra_fields
     ):
         extra_fields.setdefault("is_superuser", False)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_active", True)
         return self._create_user(
-            email,
-            username,
-            password,
-            free_mailing_list,
-            paid_mailing_list,
-            **extra_fields
+            email, username, password, free_mailing_list, **extra_fields
         )
 
     def create_superuser(
@@ -57,17 +52,11 @@ class MyCustomManager(BaseUserManager):
         username=None,
         password=None,
         free_mailing_list=None,
-        paid_mailing_list=None,
         **extra_fields
     ):
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_active", True)
         return self._create_user(
-            email,
-            username,
-            password,
-            free_mailing_list,
-            paid_mailing_list,
-            **extra_fields
+            email, username, password, free_mailing_list, **extra_fields
         )

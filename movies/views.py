@@ -119,7 +119,7 @@ class FilterMovies(PoiskList, generic.ListView):
             queryset = queryset.filter(genre__in=self.request.GET.getlist("genre"))
         if "year" in self.request.GET:
             queryset = queryset.filter(year__in=self.request.GET.getlist("year"))
-            print(queryset)
+            print(self.request.user)
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -129,7 +129,8 @@ class FilterMovies(PoiskList, generic.ListView):
         context["year"] = "".join([x for x in self.request.GET.getlist("year")])
         context["genre"] = "".join([x for x in self.request.GET.getlist("genre")])
         context["category"] = "".join([x for x in self.request.GET.getlist("category")])
-        print(context)
+        print(self.request.user)
+        print(self.request.user.is_authenticated)
         return context
 
 

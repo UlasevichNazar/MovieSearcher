@@ -1,18 +1,22 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
+from config import settings
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, null=True, on_delete=models.CASCADE, related_name="profile"
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="profile",
     )
     bio = models.TextField(null=True, blank=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to="static/")
-    facebook = models.CharField(max_length=50, null=True, blank=True)
-    twitter = models.CharField(max_length=50, null=True, blank=True)
-    instagram = models.CharField(max_length=50, null=True, blank=True)
+    profile_pic = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to="profile/",
+        default="profile/Без_названия_3.jpeg",
+    )
 
 
 def __str__(self):
