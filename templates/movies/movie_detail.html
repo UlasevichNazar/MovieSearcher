@@ -50,16 +50,21 @@
                         </li>
                         <li style="list-style: none">
                             <a href="#"><b>Рейтинг пользователей:</b>
-                                {{average_rating}}
+                                {{ average_rating|floatformat:1 }}
                             </a>
                         </li>
                         <li style="list-style: none">
-                                    <!-- Форма для оценки фильма -->
+                            <!-- Форма для оценки фильма -->
                             {% if rating_form %}
                             <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
-                            {% csrf_token %}
-                            {{ rating_form.as_p }}
-                            <button type="submit">Оценить</button>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="id_rating">Оценка:</label>
+                                    {{ rating_form.rating.errors }}
+                                    <input type="range" id="id_rating" name="rating" min="0" max="10"
+                                           class="form-control" required>
+                                </div>
+                                <button type="submit" class="gradient-button">Оценить</button>
                             </form>
                             {% endif %}
                         </li>

@@ -162,7 +162,7 @@ class Raiting(models.Model):
         verbose_name="Фильм",
     )
     rating = models.PositiveSmallIntegerField(
-        "Оценка", validators=[MinValueValidator(0), MaxValueValidator(5)]
+        "Оценка", validators=[MinValueValidator(0), MaxValueValidator(10)]
     )
 
     class Meta:
