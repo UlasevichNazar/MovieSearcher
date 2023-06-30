@@ -7,7 +7,7 @@ from django.contrib import messages
 from .forms import UserProfileForm
 from django.contrib.auth.decorators import login_required
 
-
+#poverka commita
 class ShowProfilePageView(DetailView):
     model = Profile
     template_name = "userprofile/user_profile.html"
