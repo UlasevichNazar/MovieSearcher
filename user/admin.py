@@ -1,9 +1,10 @@
 from django.contrib import admin
+from django.contrib.admin import TabularInline
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.contrib.admin import TabularInline
 
-from movies.models import Raiting, Review
+from movies.models import Raiting
+from movies.models import Review
 
 User = get_user_model()
 
@@ -34,13 +35,11 @@ class UserAdmin(admin.ModelAdmin):
         "username",
         "email",
         "free_mailing_list",
-        "paid_mailing_list",
     ]
     list_filter = [
         "username",
         "email",
         "free_mailing_list",
-        "paid_mailing_list",
     ]
     list_display_links = [
         "id",
@@ -51,7 +50,6 @@ class UserAdmin(admin.ModelAdmin):
         "id",
         "email",
         "free_mailing_list",
-        "paid_mailing_list",
     ]
     ordering = ["-id"]
     filter_horizontal = [
@@ -61,7 +59,7 @@ class UserAdmin(admin.ModelAdmin):
     readonly_fields = [
         "last_login",
     ]
-    list_editable = ("free_mailing_list", "paid_mailing_list")
+    list_editable = ("free_mailing_list",)
     inlines = (RaitingInlines, ReviewInlines)
 
     fieldsets = (
@@ -84,5 +82,5 @@ class UserAdmin(admin.ModelAdmin):
             },
         ),
         (_("Important dates"), {"fields": ("last_login",)}),
-        (_("Рассылка"), {"fields": (("free_mailing_list", "paid_mailing_list"),)}),
+        (_("Рассылка"), {"fields": (("free_mailing_list",),)}),
     )

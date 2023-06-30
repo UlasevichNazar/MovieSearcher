@@ -1,12 +1,15 @@
 from django.contrib import admin
+
 from .models import Profile
-from movies.mixins import LinkMixin, PosterMixin, get_short_description
+from movies.mixins import get_short_description
+from movies.mixins import LinkMixin
+from movies.mixins import PosterMixin
 
 
 # Register your models here.
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin, LinkMixin, PosterMixin):
-    list_display = ["id", "get_full_link", "bio", "instagram", "get_image"]
+    list_display = ["id", "get_full_link", "bio", "get_image"]
 
     def get_image(self, obj):
         item = obj.profile_pic

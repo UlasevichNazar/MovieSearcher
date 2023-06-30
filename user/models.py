@@ -1,7 +1,8 @@
 import datetime
 
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
 
 from user.managers import MyCustomManager
 
@@ -13,9 +14,6 @@ class User(AbstractUser, PermissionsMixin):
     birthday = models.DateField("Дата рождения", default=datetime.date.today, null=True)
     free_mailing_list = models.BooleanField(
         "Бесплатная рассылка", blank=True, null=True, default=False
-    )
-    paid_mailing_list = models.BooleanField(
-        "Платная рассылка", blank=True, null=True, default=False
     )
     USERNAME_FIELD = "username"
     objects = MyCustomManager()
