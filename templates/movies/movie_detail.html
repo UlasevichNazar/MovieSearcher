@@ -49,9 +49,24 @@
                             <span><b>Сборы в мире:</b> ${{ movie.fees_in_the_world }}</span>
                         </li>
                         <li style="list-style: none">
-                            <a href="#"><b>Рейтинг пользователей:</b>
-                                {{average_rating}}
+                            <a><b>Рейтинг пользователей:</b>
+                                {{ average_rating|floatformat:1 }}
                             </a>
+                        </li>
+                        <li style="list-style: none">
+                            <!-- Форма для оценки фильма -->
+                            {% if rating_form %}
+                            <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="id_rating">Оценка:</label>
+                                    {{ rating_form.rating.errors }}
+                                    <input type="range" id="id_rating" name="rating" min="0" max="10"
+                                           class="form-control" required>
+                                </div>
+                                <button type="submit" class="gradient-button">Оценить</button>
+                            </form>
+                            {% endif %}
                         </li>
                         <div class="share-desc">
                             <div class="share">

@@ -3,20 +3,20 @@
 
         <nav class="py-4">
             <div id="logo">
-                <h1><a href="{% url 'movie_list' %}" class="editContent"
-                       style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: Source Sans Pro;, sans-serif;">KinoMan</a>
+                <h1><a href="{% url 'movie_list' %}" class="pressed-button"
+                      style="text-decoration: none;">KinoMan</a>
                 </h1>
             </div>
 
             <label for="drop" class="toggle">Menu</label>
             <input type="checkbox" id="drop">
             <ul class="menu mt-2">
-                <li class="active"><a href="{% url 'movie_list' %}">Главная</a></li>
+                <li><a href="{% url 'movie_list' %}"  style="text-decoration: none;">Главная</a></li>
                 <li>
 
                      <!-- First Tier Drop Down -->
                     <label for="drop-2" class="toggle">Категории </label>
-                    <a href="#">Категории <span></span></a>
+                    <a href="#"  style="text-decoration: none;">Категории <span></span></a>
                     <input type="checkbox" id="drop-2">
                     <ul style="background-color: #f2f2f2;">
                         {% for category in categories %}
@@ -26,7 +26,9 @@
                 </li>
 
                 {% if request.user.is_authenticated %}
-                <li class="last"><a href="{% url 'user_profile' user.id %}"> {{user.username}} </a> | <a href="{% url 'logout' %}">Выйти</a></li>
+
+                <li class="last"><a href="{% url 'user_profile' user.id %}"> {{user.username}} </a> | <a href="{% url 'logout' %}" style="text-decoration: none;">Выйти</a></li>
+
                 {% else %}
                 <li class="last"><a href="{% url 'login' %}">Войти</a></li>
                 {% endif %}
