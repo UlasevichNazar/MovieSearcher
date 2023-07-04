@@ -1,7 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
 
-from userprofile.models import Profile
-
 
 class MyCustomManager(BaseUserManager):
     use_in_migrations = True
@@ -26,7 +24,6 @@ class MyCustomManager(BaseUserManager):
         if free_mailing_list:
             user.free_mailing_list = free_mailing_list
 
-        Profile.objects.create(user=user)
         user.save(using=self._db)
 
         return user

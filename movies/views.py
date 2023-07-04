@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
-from django.views import View
+from django.views.generic.edit import FormView
 
 from . import models
-from .forms import AddReviewForm, RaitingForm
+from .forms import AddReviewForm
+from .forms import RaitingForm
 from .models import Category
 from .models import Genre
 from .models import Movie
@@ -40,6 +41,7 @@ class MovieList(PoiskList, generic.ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["categories"] = Category.objects.all()
+        context["title"] = "Главная страница"
         return context
 
     def get_queryset(self):
@@ -60,16 +62,19 @@ class MovieDetail(PoiskList, generic.DetailView):
         context["movies"] = self.get_queryset().distinct()
 
         context["categories"] = Category.objects.all()
-        user = self.request.user
-
-        # Проверяем, выставил ли пользователь уже оценку для данного фильма
-        raiting = Raiting.objects.filter(user=user, movie=movie).first()
-        if raiting:
-            # Если оценка уже выставлена, скрываем форму
-            context["rating_form"] = None
+        if self.request.user.is_authenticated:
+            # Проверяем, выставил ли пользователь уже оценку для данного фильма
+            raiting = Raiting.objects.filter(
+                user=self.request.user, movie=movie
+            ).first()
+            if raiting:
+                # Если оценка уже выставлена, скрываем форму
+                context["rating_form"] = None
+            else:
+                # Если оценка еще не выставлена, отображаем форму
+                context["rating_form"] = RaitingForm()
         else:
-            # Если оценка еще не выставлена, отображаем форму
-            context["rating_form"] = RaitingForm()
+            context["rating_form"] = None
 
         return context
 
@@ -82,7 +87,7 @@ class MovieDetail(PoiskList, generic.DetailView):
 
         if raiting:
             # Если оценка уже выставлена, перенаправляем пользователя обратно на страницу фильма
-            return redirect('movie_detail', slug=movie.slug)
+            return redirect("movie_detail", slug=movie.slug)
 
         form = RaitingForm(request.POST)
         if form.is_valid():
@@ -92,20 +97,29 @@ class MovieDetail(PoiskList, generic.DetailView):
             rating.movie = movie
             rating.save()
 
-        return redirect('movie_detail', slug=movie.slug)
+        return redirect("movie_detail", slug=movie.slug)
 
 
-class AddReview(View):
+class AddReview(FormView):
+    template_name = "movies/movie_detail.html"
+    form_class = AddReviewForm
+
     @method_decorator(login_required)
-    def post(self, request, pk):
-        form = AddReviewForm(request.POST)
-        movie = Movie.objects.get(id=pk)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.movie = movie
-            review.save()
-        return redirect(movie.get_absolute_url())
+    def dispatch(self, request, *args, **kwargs):
+        self.movie = Movie.objects.get(id=kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.user = self.request.user
+        review.movie = self.movie
+        review.save()
+        return redirect(self.movie.get_absolute_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["movie"] = self.movie
+        return context
 
 
 class FilterMovies(PoiskList, generic.ListView):
@@ -119,7 +133,6 @@ class FilterMovies(PoiskList, generic.ListView):
             queryset = queryset.filter(genre__in=self.request.GET.getlist("genre"))
         if "year" in self.request.GET:
             queryset = queryset.filter(year__in=self.request.GET.getlist("year"))
-            print(self.request.user)
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -129,8 +142,7 @@ class FilterMovies(PoiskList, generic.ListView):
         context["year"] = "".join([x for x in self.request.GET.getlist("year")])
         context["genre"] = "".join([x for x in self.request.GET.getlist("genre")])
         context["category"] = "".join([x for x in self.request.GET.getlist("category")])
-        print(self.request.user)
-        print(self.request.user.is_authenticated)
+        context["title"] = "Поиск фильма"
         return context
 
 
