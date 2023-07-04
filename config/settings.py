@@ -36,6 +36,7 @@ INSTALLED_APPS += [
     "userprofile",
     "reg_login",
     "send_mail",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -117,7 +118,6 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -299,3 +299,24 @@ CACHES = {
 }
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+###########################################
+# DRF SPECTACULAR
+###########################################
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Movie Searcher",
+    "DESCRIPTION": "",
+    "VERSION": "1.0.0",
+    "SERVE_PERMISSIONS": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "SERVE_AUTHENTICATION": [
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "displayOperationId": True,
+    },
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SORT_OPERATIONS": False,
+}
