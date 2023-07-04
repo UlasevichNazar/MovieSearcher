@@ -26,10 +26,20 @@ class Register(CreateView):
             login(self.request, user)
         return redirect("movie_list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Регистрация"
+        return context
+
 
 class LoginUser(LoginView):
     from_class = LoginUserForm
     template_name = "login/login.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Войти"
+        return context
 
 
 def logout_user(request):

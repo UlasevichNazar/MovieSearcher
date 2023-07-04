@@ -11,13 +11,17 @@ class UserProfileForm(UserChangeForm):
     email = forms.CharField(
         label="Eamil", widget=forms.TextInput(attrs={"class": "form-control"})
     )
-    birthday = forms.CharField(
-        label="Дата рождения", widget=forms.TextInput(attrs={"class": "form-control"})
+    birthday = forms.DateField(
+        label="Дата рождения",
+        widget=forms.DateInput(
+            attrs={"class": "form-control", "placeholder": "дд.мм.гггг"}
+        ),
+        input_formats=["%d.%m.%Y"],
     )
     bio = forms.CharField(
         label="О себе",
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-control"}),
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 5, "cols": 50}),
     )
     profile_pic = forms.ImageField(label="Фото профиля", required=False)
 

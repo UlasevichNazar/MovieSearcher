@@ -8,6 +8,7 @@ from django.views.generic.detail import DetailView
 
 from .forms import UserProfileForm
 from .models import Profile
+from movies.models import Category
 
 User = get_user_model()
 
@@ -24,6 +25,8 @@ class ShowProfilePageView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_profile"] = self.object
+        context["categories"] = Category.objects.all()
+
         return context
 
 
@@ -45,5 +48,9 @@ def edit_profile(request):
     return render(
         request,
         "userprofile/edit_profile.html",
-        {"form": form, "profile_form": profile_form},
+        {
+            "form": form,
+            "profile_form": profile_form,
+            "categories": Category.objects.all(),
+        },
     )

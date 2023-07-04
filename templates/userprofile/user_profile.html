@@ -36,24 +36,26 @@
                         <input type="text" id="birthday" class="form-control" value="{{ user.birthday }}" readonly>
                     </div>
 
-                        <label for="last-login">Последний вход:</label>
-                        <div class="last-login">
-                            <p>{{ user.last_login }}</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <a href="/user/edit_profile/" class="btn btn-primary">Редактировать профиль</a>
-                    </div>
-                    <div class="text-center mt-4">
-                        <a href="/" class="btn btn-primary">Вернуться на главную страницу</a>
+                    <label for="last-login">Последний вход:</label>
+                    <div class="last-login">
+                        <p>{{ user.last_login }}</p>
                     </div>
                 </div>
+
+
+                <div class="text-center">
+                    <a href="/user/edit_profile/" class="btn btn-primary">Редактировать профиль</a>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-primary">Вернуться на главную страницу</a>
+                </div>
             </div>
-
-
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
         </div>
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    </div>
     </div>
 </section>
 {% endblock %}
