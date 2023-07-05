@@ -24,10 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 # packages
-INSTALLED_APPS += [
-    "ckeditor",
-    "ckeditor_uploader",
-]
+INSTALLED_APPS += ["ckeditor", "ckeditor_uploader", "rest_framework"]
 
 # apps
 INSTALLED_APPS += [
@@ -120,6 +117,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "/"
+
+###########################################
+# DJANGO REST FRAMEWORK
+###########################################
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSIONS_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+        "rest_framework.parsers.FileUploadParser",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
 
 ##############################################################
 # SKEDITOR
@@ -304,7 +320,7 @@ SESSION_CACHE_ALIAS = "default"
 # DRF SPECTACULAR
 ###########################################
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Movie Searcher",
+    "TITLE": "Call Helper",
     "DESCRIPTION": "",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
