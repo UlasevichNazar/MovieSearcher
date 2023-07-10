@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <body>
+            <a href="{% url 'add_movie' %}">
+                <button class="pressed-button">Добавить фильм</button>
+            </a>
+            <br><br>
+            <a href="{% url 'add_category' %}">
+                <button class="pressed-button">Добавить категорию</button>
+            </a>
+            <br><br>
+            <a href="{% url 'add_genre' %}">
+                <button class="pressed-button">Добавить жанр</button>
+            </a>
+            <br><br>
+            <a href="{% url 'add_director' %}">
+                <button class="pressed-button">Добавить режиссера</button>
+            </a>
+            <br><br>
+            <a href="{% url 'add_actor' %}" >
+                <button class="pressed-button">Добавить актера</button>
+            </a>
+            </body>
+        </div>
+    </div>
+</div>
+{% endblock %}
