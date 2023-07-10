@@ -27,10 +27,10 @@
 
                 {% if request.user.is_authenticated %}
 
-                <li class="last"><a href="{% url 'user_profile' user.id %}"> {{user.username}} </a> | <a href="{% url 'logout' %}" style="text-decoration: none;">Выйти</a></li>
+                <li class="last"><a href="{% url 'user_profile' user.id %}"> {{user.username}} </a> | <a href="{% url 'django_logout' %}" style="text-decoration: none;">Выйти</a></li>
 
                 {% else %}
-                <li class="last"><a href="{% url 'login' %}">Войти</a></li>
+                <li class="last"><a href="{% url 'django_login' %}">Войти</a></li>
                 {% endif %}
 
 
@@ -42,7 +42,7 @@
 </header>
 <!-- //header -->
 <!--/banner-->
-<div class="banner-info">
+<div class="banner-info" style="background-co;">
 
 <!--    <div class="ban-buttons">-->
 

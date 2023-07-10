@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 import environ
@@ -24,7 +25,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 # packages
-INSTALLED_APPS += ["ckeditor", "ckeditor_uploader", "rest_framework"]
+INSTALLED_APPS += [
+    "ckeditor",
+    "ckeditor_uploader",
+    "rest_framework",
+    "drf_spectacular",
+]
 
 # apps
 INSTALLED_APPS += [
@@ -33,7 +39,8 @@ INSTALLED_APPS += [
     "userprofile",
     "reg_login",
     "send_mail",
-    "drf_spectacular",
+    "rest_framework.authtoken",
+    "djoser",
 ]
 
 MIDDLEWARE = [
@@ -133,8 +140,41 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+#############################################################
+# DJOSER
+#############################################################
+
+DJOSER = {
+    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "#/activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SERIALIZERS": {
+        "user_create": "api.serializers.reg_login_serializers.registration.RegisterSerializer",
+    },
+}
+
+##############################################################
+# SIMPLE_JWT
+##############################################################
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": "",
+    "AUDIENCE": None,
+    "ISSUER": None,
 }
 
 ##############################################################
@@ -320,7 +360,7 @@ SESSION_CACHE_ALIAS = "default"
 # DRF SPECTACULAR
 ###########################################
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Call Helper",
+    "TITLE": "Movie Searcher",
     "DESCRIPTION": "",
     "VERSION": "1.0.0",
     "SERVE_PERMISSIONS": [
@@ -328,6 +368,8 @@ SPECTACULAR_SETTINGS = {
     ],
     "SERVE_AUTHENTICATION": [
         "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "SWAGGER_UI_SETTINGS": {
         "deepLinking": True,

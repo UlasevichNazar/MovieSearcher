@@ -1,0 +1,49 @@
+{% extends 'movies/base.html' %}
+
+{% block title %} {{ movie.title }} {% endblock title %}
+<!--{% block header %} bg2 {% endblock header %}-->
+
+{% block container %}
+<div class="container py-md-3">
+    {% endblock container %}
+
+    {% block sidebar %}
+    <div class="side-bar col-lg-4">
+        {% endblock sidebar %}
+
+        {% block movie %}
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="image-container">
+                        <img src="{{ actor.image.url }}" class="img-fluid" alt="{{ actor.name }}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="editContent">{{ actor.name }}</h3>
+                    <ul>
+                        <li>
+                            <b>Фильмы с участием актера:</b><br>
+                            {% for movie in actor.movies_with_actor.all %}
+                            <a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a><br>
+                            {% if not forloop.last %} {% endif %}
+                            {% empty %}
+                            Нет фильмов с данным актером
+                            {% endfor %}
+                        </li>
+                    </ul>
+                    <div class="actor-description">
+                        <h3 class="editContent">О {{ actor.name }}</h3>
+                        <p>
+                            {{ actor.description|safe }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock movie %}
+
+
+    </div>
+
+</div>

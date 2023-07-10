@@ -58,6 +58,7 @@
   word-wrap: break-word;
 }
 body {
+      color: white;
       padding-top: 40px;
     }
     .profile-card {
@@ -93,6 +94,8 @@ body {
   }
 
 
+
+
     </style>
 
 </head>
@@ -106,18 +109,20 @@ body {
 
 
 
+
+
 </script>
 <div id="page" class="page">
-    <div id="home" class="bg2">
+    <div id="home" style="background-color: #4B1212">
         {% include 'include/header.html' %}
     </div>
-    <ol class="breadcrumb editContent">
-        <li class="breadcrumb-item">
-            <a href="{% url 'movie_list' %}" class="editContent">Home</a>
-        </li>
-        <li class="breadcrumb-item active editContent">Single Page</li>
+<!--    <ol class="breadcrumb editContent">-->
+<!--        <li class="breadcrumb-item">-->
+<!--            <a href="{% url 'movie_list' %}" class="editContent">Home</a>-->
+<!--        </li>-->
+<!--        <li class="breadcrumb-item active editContent">Single Page</li>-->
 
-    </ol>
+<!--    </ol>-->
     {% block content %}
 
     {% endblock content %}

@@ -1,17 +1,21 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views import generic
+from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 
 from . import models
 from .forms import AddReviewForm
 from .forms import RaitingForm
+from .models import Actor
 from .models import Category
 from .models import Genre
 from .models import Movie
 from .models import Raiting
+from .models import Review
 
 
 class PoiskList:
@@ -58,46 +62,54 @@ class MovieDetail(PoiskList, generic.DetailView):
         average_rating = Raiting.objects.filter(movie=movie).aggregate(
             avg_rating=Avg("rating")
         )["avg_rating"]
+        rating_count = Raiting.objects.filter(movie=movie).count()
+        context["rating_count"] = rating_count
         context["average_rating"] = average_rating
         context["movies"] = self.get_queryset().distinct()
 
         context["categories"] = Category.objects.all()
-        if self.request.user.is_authenticated:
-            # Проверяем, выставил ли пользователь уже оценку для данного фильма
-            raiting = Raiting.objects.filter(
-                user=self.request.user, movie=movie
-            ).first()
-            if raiting:
-                # Если оценка уже выставлена, скрываем форму
-                context["rating_form"] = None
-            else:
-                # Если оценка еще не выставлена, отображаем форму
-                context["rating_form"] = RaitingForm()
+        user = self.request.user
+        rating = Raiting.objects.filter(user=user, movie=movie).first()
+
+        if rating:
+            context["rating_form"] = RaitingForm(instance=rating)
+            context["can_edit_rating"] = True
+            context["rating"] = rating.rating
+            context["rating_id"] = rating.id
         else:
-            context["rating_form"] = None
+            context["rating_form"] = RaitingForm()
 
         return context
 
     def post(self, request, *args, **kwargs):
         movie = self.get_object()
         user = request.user
+        rating = Raiting.objects.filter(user=user, movie=movie).first()
 
-        # Проверяем, выставил ли пользователь уже оценку для данного фильма
-        raiting = Raiting.objects.filter(user=user, movie=movie).first()
-
-        if raiting:
-            # Если оценка уже выставлена, перенаправляем пользователя обратно на страницу фильма
+        if rating:
+            rating.delete()
             return redirect("movie_detail", slug=movie.slug)
 
         form = RaitingForm(request.POST)
         if form.is_valid():
-            # Сохраняем оценку фильма
             rating = form.save(commit=False)
             rating.user = user
             rating.movie = movie
             rating.save()
 
         return redirect("movie_detail", slug=movie.slug)
+
+
+class ActorView(DetailView):
+    model = Actor
+    template_name = "persons/actors.html"
+    slug_field = "name"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["categories"] = Category.objects.all()
+        context["title"] = "Актер"
+        return context
 
 
 class AddReview(FormView):
@@ -120,6 +132,15 @@ class AddReview(FormView):
         context = super().get_context_data(**kwargs)
         context["movie"] = self.movie
         return context
+
+
+@login_required
+def delete_review(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    review_movie = review.movie
+    if review.user == request.user:
+        review.delete()
+    return redirect(review_movie.get_absolute_url())
 
 
 class FilterMovies(PoiskList, generic.ListView):

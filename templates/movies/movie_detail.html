@@ -12,11 +12,11 @@
         {% endblock sidebar %}
 
         {% block movie %}
-        <div class="left-ads-display col-lg-8">
+        <div class="left-ads-display col-lg-8" >
             <div class="row">
                 <img src="{{ movie.poster.url }}" class="img-fluid" alt="">
                 <div class="desc1-right col-md-6 pl-lg-10">
-                    <h3 class="editContent" style="outline: none; cursor: inherit;">
+                    <h3 class="editContent" style="outline: none; cursor: inherit;color: white;">
                         {{ movie.title }}
                     </h3>
                     <h5 class="editContent"></h5>
@@ -26,36 +26,49 @@
                         <li style="list-style: none">
                             <span><b>Страна:</b> {{ movie.country }}</span>
                         </li>
+                        <br>
                         <li style="list-style: none">
                                     <span><b>Режиссер:</b>
                                         {{movie.director}}
                                     </span>
                         </li>
-                        <li style="list-style: none"><span><b>Актеры:</b>
+
+                        <li style="list-style: none"><span><b>Актеры:</b><br>
                         {% for actor in movie.actors.all %}
-                            {{ actor.name }}
-                        {% endfor %}
+                         <a href="{% url 'actor_view' actor.name %}" class="last">       {{ actor.name }}</a><br>
+                                 {% endfor %}
                                 </span>
                         </li>
+                        <br>
                         <li style="list-style: none"><span><b>Жанр:</b>
                         {% for genre in movie.genre.all %}
                             {{ genre.name }}
                         {% endfor %}
                                     </span>
                         </li>
+                        <br>
                         <li style="list-style: none">
                             <span><b>Бюджет:</b> ${{ movie.budget }}</span></li>
                         <li style="list-style: none">
                             <span><b>Сборы в мире:</b> ${{ movie.fees_in_the_world }}</span>
                         </li>
+                        <br>
                         <li style="list-style: none">
                             <a><b>Рейтинг пользователей:</b>
                                 {{ average_rating|floatformat:1 }}
                             </a>
                         </li>
-                        <li style="list-style: none">
-                            <!-- Форма для оценки фильма -->
+                        <li style="font-size: 12px;list-style: none;">
+                            <a><b>Количество оценок:</b>
+                                {{ rating_count }}
+                            </a>
                             {% if rating_form %}
+                            {% if rating_id %}
+                            <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
+                                {% csrf_token %}
+                                <button type="submit" class="pressed-button">Изменить оценку</button>
+                            </form>
+                            {% else %}
                             <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
                                 {% csrf_token %}
                                 <div class="form-group">
@@ -64,47 +77,18 @@
                                     <input type="range" id="id_rating" name="rating" min="0" max="10"
                                            class="form-control" required>
                                 </div>
-                                <button type="submit" class="gradient-button">Оценить</button>
+                                <button type="submit" class="pressed-button">Оценить</button>
                             </form>
                             {% endif %}
-                        </li>
-                        <div class="share-desc">
-                            <div class="share">
-                                <h4 class="editContent"
-                                    style="outline: none; cursor: inherit;">
-                                    Share:</h4>
-                                <ul class="w3layouts_social_list list-unstyled">
-                                    <li>
-                                        <a href="#" class="w3pvt_facebook editContent"
-                                           style="outline: none; cursor: inherit;">
-                                                <span class="fa fa-facebook-f"
-                                                      style="outline: none; cursor: inherit;"></span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="w3pvt_twitter editContent"
-                                           style="outline: none; cursor: inherit;">
-                                                <span class="fa fa-twitter"
-                                                      style="outline: none; cursor: inherit;"></span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="w3pvt_dribble editContent"
-                                           style="outline: none; cursor: inherit;">
-                                                <span class="fa fa-dribbble"
-                                                      style="outline: none; cursor: inherit;"></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                            {% endif %}
+
+
                     </ul>
                 </div>
             </div>
             <div class="row sub-para-w3layouts mt-5">
 
-                <h3 class="shop-sing editContent" style="outline: none; cursor: inherit;">
+                <h3 class="shop-sing editContent" style="outline: none; cursor: inherit;color: white;">
                     О фильме {{ movie.title }}
                 </h3>
                 <p>
@@ -112,7 +96,7 @@
                     <img src="{{ image.image.url }}" class="img-shorts" alt="{{image.discription}}">
                     {% endfor %}
                 </p>
-                <p>
+                <p style="color: white;">
                     {{movie.description|safe}}
                 </p>
             </div>
@@ -134,7 +118,7 @@
                                           id="contactcomment" required=""></textarea>
                             </div>
 
-                            <button type="submit" class="mt-3 btn btn-success btn-block py-3">
+                            <button type="submit" class="pressed-button">
                                 Отправить
                             </button>
                         </form>
@@ -145,11 +129,11 @@
                         Комментарии пользователей
                     </h3>
 
-                    <div class="menu-button" onclick="toggleMediaContainer()">Открыть/Закрыть</div>
+                    <div class="pressed-button" onclick="toggleMediaContainer()">Открыть/Закрыть</div>
 
                     <!-- Контейнер с медиа-элементами -->
                     <div id="media-container">
-                        {% for review in movie.movie.all %}
+                        {% for review in movie.reviews.all %}
                         <div class="media py-5">
                             <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
                                  style="width:100px;height:100px;" alt="image">
@@ -162,6 +146,12 @@
                                         {{ review.text }}
                                     </p>
                                 </div>
+                                {% if request.user == review.user or request.user == request.user.is_superuser %}
+                                <form action="{% url 'delete_review' review.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="pressed-button">Удалить</button>
+                                </form>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
