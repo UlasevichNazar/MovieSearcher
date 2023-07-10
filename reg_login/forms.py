@@ -22,7 +22,7 @@ class RegisterUserForm(UserCreationForm):
     free_mailing_list = forms.CharField(
         label="Рассылка",
         required=False,
-        widget=forms.CheckboxInput(attrs={"class:": "form-controlt"}),
+        widget=forms.CheckboxInput(attrs={"class:": "form-control"}),
     )
 
     class Meta:

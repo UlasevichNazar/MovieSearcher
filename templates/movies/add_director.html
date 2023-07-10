@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h3>Добавление режиссера:</h3>
+            <form method="post" action="{% url 'add_director' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="pressed-button">Добавить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

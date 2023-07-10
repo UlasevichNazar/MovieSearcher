@@ -165,12 +165,6 @@ class DirectorAdmin(PosterMixin, admin.ModelAdmin):
         (None, {"fields": (("image",),)}),
     )
 
-    # def get_image(self, obj):
-    #     item = obj.image
-    #     return self.get_poster(obj, item)
-    #
-    # get_short_description(get_image, "Изображение")
-
 
 @admin.register(models.Actor)
 class ActorAdmin(PosterMixin, admin.ModelAdmin):
@@ -189,12 +183,6 @@ class ActorAdmin(PosterMixin, admin.ModelAdmin):
         (None, {"fields": ("description",)}),
         (None, {"fields": (("image",),)}),
     )
-
-    # def get_image(self, obj):
-    #     item = obj.image
-    #     return self.get_poster(obj, item)
-    #
-    # get_short_description(get_image, "Изображение")
 
 
 @admin.register(models.Review)
