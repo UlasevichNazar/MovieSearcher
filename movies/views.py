@@ -217,3 +217,8 @@ def add_actor(request):
 
 def add_buttons(request):
     return render(request, 'movies/add_buttons.html')
+
+
+def category_buttons(request):
+    categories = Category.objects.all()
+    return render(request, 'movies/category_buttons.html', {'categories': categories})
