@@ -1,0 +1,61 @@
+{% extends 'movies/base.html' %}
+
+{% block title %} {{ actor.name }} {% endblock %}
+
+
+{% block container %}
+<div class="container py-md-3">
+    {% endblock container %}
+
+    {% block sidebar %}
+    <div class="side-bar col-lg-4">
+        {% endblock sidebar %}
+
+        {% block movie %}
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="image-container">
+                        <img src="{{ actor.image.url }}" class="img-fluid" style="float:left" alt="{{ actor.name }}">
+                    </div>
+                </div>
+                <br>
+                <div class="col-md-6">
+                    <h3 class="editContent">{{ actor.name }}</h3><br>
+                    <ul>
+                        <li style="list-style: none">
+                            <h5>Фильмы с участием актера:</h5>
+
+                            {% for movie in actor.movies_with_actor.all %}
+                        <li>
+                            <h5>
+                                <a href="{{ movie.get_absolute_url }}"
+                                   class="movie-link">{{ movie.title }}</a>
+                            </h5>
+                        </li>
+                        {% if not forloop.last %} {% endif %}
+                        {% empty %}
+                        Нет фильмов с данным актером
+                        {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="actor-description" style="text-align:center">
+                    <br>
+                    <h3 class="editContent">О {{ actor.name }}</h3>
+                    <h5><p>
+                        {{ actor.description|safe }}
+                    </p></h5>
+                </div>
+
+            </div>
+            <div style="text-align:center">
+                <input type="button" onclick="history.back();" class="pressed-button" value="Назад"/>
+            </div>
+        </div>
+    </div>
+
+    {% endblock movie %}
+
+</div>
+</div>

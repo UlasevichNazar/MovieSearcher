@@ -3,17 +3,24 @@
 {% block content %}
 <section class="ab-info-main py-md-5 py-4 editContent" style="padding-left: 3rem; padding-right: 3rem;">
     <div class="container-fluid py-md-3">
-        <h2 class="text-center">Edit Profile</h2>
+        <h2 class="text-center" style="color:white">Изменить профиль</h2>
         <div class="row">
             <div class="container">
                 <div class="profile-card">
                     <div class="form-group">
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            <b style="color:white">{{ form.as_p }}</b>
 
                             <div style="text-align: center;">
-                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="submit"
+                                        class="pressed-button text-decoration: none;cursor: pointer;color:white;">
+                                    Сохранить
+                                </button>
+                                <button type="submit"
+                                        class="pressed-button text-decoration: none;cursor: pointer;color:white;">
+                                    Назад
+                                </button>
                             </div>
 
                         </form>

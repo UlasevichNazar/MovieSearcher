@@ -13,41 +13,54 @@
         <div class="row">
             <div class="container">
                 <div class="profile-card">
-                    <h2 class="text-center">Профиль пользователя</h2>
-                    {% if user.profile.profile_pic %}
-                    <img src="{{ profile.profile_pic.url }}" height=150 width=150><br><br>
-                    {% else %}
-                    <img src="{% static 'base\images\profile\user.png' %}" height=100 width=100><br><br>
-                    {% endif %}
+                    <h2 class="text-center" style="color:white;">Профиль пользователя {{ user.username }}</h2><br>
+                    <div style="text-align: center">
+                        {% if user.profile.profile_pic %}
+                        <img src="{{ profile.profile_pic.url }}" height=150 width=150><br><br>
+                        {% else %}
+                        <img src="{% static 'base\images\profile\user.png' %}" height=100 width=100><br><br>
+                        {% endif %}
+                    </div>
                     <div class="form-group">
-                        <label for="name">Имя:</label>
+                        <label for="name" style="color:white;">Имя:</label>
                         <input type="text" id="name" class="form-control" value="{{ user.username }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="bio">О себе:</label>
+                        <label for="bio" style="color:white;">О себе:</label>
                         <input type="text" id="bio" class="form-control" value="{{ profile.bio }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
+                        <label for="email" style="color:white;">Email:</label>
                         <input type="email" id="email" class="form-control" value="{{ user.email }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="birthday">Дата рождения:</label>
+                        <label for="birthday" style="color:white;">Дата рождения:</label>
                         <input type="text" id="birthday" class="form-control" value="{{ user.birthday }}" readonly>
                     </div>
 
-                    <label for="last-login">Последний вход:</label>
-                    <div class="last-login">
+                    <div class="form-group">
+                        <label for="free_mailing_list" style="color:white;">Рассылка:</label>
+                        {% if user.free_mailing_list == True %}
+                        <input type="text" id="free_mailing_list" class="form-control" value="Да" readonly>
+                        {% else %}
+                        <input type="text" id="free_mailing_list1" class="form-control" value="Нет" readonly>
+                    </div>
+                    {% endif %}
+
+                    <label for="last-login" style="color:white;">Последний вход:</label>
+                    <div id="last-login" class="last-login">
                         <p>{{ user.last_login }}</p>
                     </div>
                 </div>
 
 
                 <div class="text-center">
-                    <a href="/user/edit_profile/" class="btn btn-primary">Редактировать профиль</a>
+                    <a href="{% url 'edit_profile' %}" class="pressed-button" style="color: inherit;
+  text-decoration: none;cursor: pointer;color:white;">Редактировать профиль</a>
                 </div>
                 <div class="text-center mt-4">
-                    <a href="/" class="btn btn-primary">Вернуться на главную страницу</a>
+                    <a href="{% url 'movie_list' %}" class="pressed-button" style="color: inherit;
+  text-decoration: none;cursor: pointer;color:white;">Вернуться на главную страницу</a>
                 </div>
             </div>
         </div>
