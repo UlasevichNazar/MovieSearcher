@@ -21,8 +21,8 @@ class AbstractModel(models.Model):
 # Модель кино
 class Movie(models.Model):
     class Status(models.TextChoices):
-        DRAFT = ("DF", "Черновик")
-        PUBLISHED = ("PB", "Опубликовано")
+        DRAFT = ("draft", "Черновик")
+        PUBLISHED = ("publish", "Опубликовано")
 
     title = models.CharField("Название", max_length=255)
     description = models.TextField("Описание")
@@ -59,7 +59,7 @@ class Movie(models.Model):
     slug = models.SlugField("URL", max_length=100, unique=True)
     publish = models.DateTimeField("Публикация", default=timezone.now)
     status = models.CharField(
-        "Статус", max_length=2, choices=Status.choices, default=Status.DRAFT
+        "Статус", max_length=7, choices=Status.choices, default=Status.DRAFT
     )
 
     def __str__(self):
@@ -140,7 +140,7 @@ class Review(models.Model):
     text = models.TextField("Текст")
     created = models.DateTimeField(auto_now_add=True)
     movie = models.ForeignKey(
-        Movie, on_delete=models.CASCADE, related_name="movie", verbose_name="Фильм"
+        Movie, on_delete=models.CASCADE, related_name="reviews", verbose_name="Фильм"
     )
 
     class Meta:

@@ -1,12 +1,13 @@
-from django.contrib import admin
-from . import models
-from django.utils.translation import gettext_lazy as _
-from django.contrib.admin import TabularInline
-from django import forms
-from .mixins import LinkMixin, PosterMixin, get_short_description
-
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django import forms
+from django.contrib import admin
+from django.contrib.admin import TabularInline
+from django.utils.translation import gettext_lazy as _
 
+from . import models
+from .mixins import get_short_description
+from .mixins import LinkMixin
+from .mixins import PosterMixin
 from .models import Movie
 
 

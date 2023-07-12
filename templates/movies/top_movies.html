@@ -1,0 +1,33 @@
+{% extends 'movies/base.html' %}
+{% block title %} {{ title }} {% endblock title %}
+
+{% block movie %}
+<div class="container py-md-5">
+    <div class="row">
+        <div class="col-md-9">
+            <!-- Фильмы -->
+            {% for movie in top_movies %}
+            <div class="movie-container" style="margin-bottom: 120px;">
+                <div class="movie-item" style="display: flex; align-items: center;">
+                    <div class="movie-number" style="margin-right: 200px;color: black">
+                        <h2>{{ page_obj.start_index|add:forloop.counter0 }}</h2>
+                    </div>
+                    <div class="movie-poster" style="margin-right: 20px;">
+                        <img src="{{ movie.poster.url }}" class="img-fluid" alt="{{ movie.title }}">
+                    </div>
+                    <div class="movie-details">
+                        <a href="{% url 'movie_detail' movie.slug %}" class="movie-link"><h4
+                                class="movie-title">{{ movie.title }}</h4></a>
+                        <p class="movie-rating">Рейтинг: {{ movie.average_rating }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="grid-img-right mt-4 text-right bg bg1" style="margin-right: 200px">
+        {% include 'include/pagination.html' %}
+    </div>
+</div>
+{% endblock movie %}

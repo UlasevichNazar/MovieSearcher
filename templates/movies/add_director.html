@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
-
+{% block title %} {{ title }} {% endblock title %}
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h3>Добавление режиссера:</h3>
+            <h3 style="color:white;">Добавление режиссера:</h3>
             <form method="post" action="{% url 'add_director' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="pressed-button">Добавить</button>
+                <div style="text-align: center;">
+                    <button type="submit" class="pressed-button" style="cursor: pointer;">Добавить</button>
+                    <button type="submit" class="pressed-button"><a href="{% url 'add_buttons' %}" style="color: inherit;
+  text-decoration: none;cursor: pointer;"> Назад</a></button>
+                </div>
             </form>
         </div>
     </div>

@@ -23,39 +23,28 @@
 
 
 
+
+
     </style>
 
-
-    <!-- Jumbotron -->
-
-    <!-- Содержимое вашего <div> -->
-
-    <!--    <div class="container py-4" id="reg-blank-login">-->
-    <!--        <div class="row g-0 align-items-center">-->
     <div style="display: flex; justify-content: center; align-items: center;">
-        <!-- Содержимое вашего <div> -->
 
         <div class="col-lg-6 mb-5 mb-lg-0">
-            <div class="card cascading-center" style="
-            background: hsla(0, 0%, 100%, 0.55);
-            backdrop-filter: blur(30px);
-            ">
-                <div class="card-body p-5 shadow-5 text-center">
-                    <h2 class="fw-bold mb-5">Войти</h2>
+            <div class="card cascading-center" style="border-color:black;">
+                <div class="card p-5 shadow-5 text-center" style="background-color: #600202">
+                    <h2 class="fw-bold mb-5" style="color:white">Войти</h2>
                     <form method="post">
                         {% csrf_token %}
                         {{form.non_field_errors}}
 
 
-                        <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <label class="form-label">Логин</label>
+                            <label class="form-label" style="color:white">Логин</label>
                             {{ form.username }}
                         </div>
 
-                        <!-- Password input -->
                         <div class="form-outline mb-4">
-                            <label class="form-label">Пароль</label>
+                            <label class="form-label" style="color:white">Пароль</label>
                             {{ form.password }}
 
                         </div>
@@ -63,21 +52,22 @@
 
                         <div class="d-flex justify-content-center">
                             <button type="submit"
-                                    class="btn btn-primary profile-button">
+                                    class="pressed-button">
                                 Войти
                             </button>
 
 
                         </div>
                         <p class="text-center text-muted mt-5 mb-0">У вас нет аккаунта? Нажмите кнопку <a
-                                href="{% url 'register' %}"
-                                class="fw-bold text-body"><u>Зарегестрироваться</u></a>
+                                href="{% url 'django_register' %}"
+                                class="fw-bold text-body" style="color: inherit;
+  text-decoration: none;cursor: pointer;color:white;">Зарегистрироваться</a>
                         </p>
 
                     </form>
                 </div>
             </div>
-            <!--            </div>-->
+            <br><br><br><br>
 
         </div>
     </div>

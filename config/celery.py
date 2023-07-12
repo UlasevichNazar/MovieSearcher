@@ -12,6 +12,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     "send-message-every-day": {
         "task": "send_mail.tasks.send_email_per",
-        "schedule": timedelta(minutes=1),
+        "schedule": timedelta(days=15),
     },
 }

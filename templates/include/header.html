@@ -11,8 +11,10 @@
             <label for="drop" class="toggle">Menu</label>
             <input type="checkbox" id="drop">
             <ul class="menu mt-2">
-                <li><a href="{% url 'add_buttons' %}"  style="text-decoration: none;">Добавить фильм</a></li>
-                <li><a href="{% url 'movie_list' %}"  style="text-decoration: none;">Главная</a></li>
+                {% if user.is_superuser or user.is_staff %}
+                <li><a href="{% url 'add_buttons' %}"  style="text-decoration: none;">Добавить</a></li>
+                {% endif %}
+                <li><a href="{% url 'top_movies' %}"  style="text-decoration: none;">Лучшие фильмы</a></li>
                 <li>
 
                      <!-- First Tier Drop Down -->
@@ -28,10 +30,10 @@
 
                 {% if request.user.is_authenticated %}
 
-                <li class="last"><a href="{% url 'user_profile' user.id %}"> {{user.username}} </a> | <a href="{% url 'logout' %}" style="text-decoration: none;">Выйти</a></li>
+                <li class="last"><a href="{% url 'user_profile' user.id %}"> {{user.username}} </a> | <a href="{% url 'django_logout' %}" style="text-decoration: none;">Выйти</a></li>
 
                 {% else %}
-                <li class="last"><a href="{% url 'login' %}">Войти</a></li>
+                <li class="last"><a href="{% url 'django_login' %}">Войти</a></li>
                 {% endif %}
 
 
@@ -43,7 +45,7 @@
 </header>
 <!-- //header -->
 <!--/banner-->
-<div class="banner-info">
+<div class="banner-info" style="background-co;">
 
 <!--    <div class="ban-buttons">-->
 
