@@ -36,16 +36,16 @@
     </div>
 
     <div class="left-side">
-        <h3 class="sear-head editContent" style="color: white;" >Год</h3>
-        <ul class="w3layouts-box-list">
-            {% for year in view.get_years %}
+    <h3 class="sear-head editContent" style="color: white;">Год</h3>
+    <ul class="w3layouts-box-list">
+        {% for year in view.get_years %}
             <li class="editContent">
                 <input type="checkbox" class="checked" name="year" value="{{ year }}">
                 <span class="span editContent">{{ year }}</span>
             </li>
-            {% endfor %}
-        </ul>
-    </div>
+        {% endfor %}
+    </ul>
+</div>
     <button type="submit" class="pressed-button">Найти</button>
 </form><br>
 

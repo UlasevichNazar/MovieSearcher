@@ -35,6 +35,7 @@ class UserAdmin(admin.ModelAdmin):
         "username",
         "email",
         "free_mailing_list",
+        "status",
     ]
     list_filter = [
         "username",

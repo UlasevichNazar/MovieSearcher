@@ -1,7 +1,7 @@
 {% extends 'movies/base.html' %}
 
-{% block title %} {{ movie.title }} {% endblock title %}
-<!--{% block header %} bg2 {% endblock header %}-->
+{% block title %} {{ actor.name }} {% endblock %}
+
 
 {% block container %}
 <div class="container py-md-3">
@@ -16,34 +16,46 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="image-container">
-                        <img src="{{ actor.image.url }}" class="img-fluid" alt="{{ actor.name }}">
+                        <img src="{{ actor.image.url }}" class="img-fluid" style="float:left" alt="{{ actor.name }}">
                     </div>
                 </div>
+                <br>
                 <div class="col-md-6">
-                    <h3 class="editContent">{{ actor.name }}</h3>
+                    <h3 class="editContent">{{ actor.name }}</h3><br>
                     <ul>
-                        <li>
-                            <b>Фильмы с участием актера:</b><br>
+                        <li style="list-style: none">
+                            <h5>Фильмы с участием актера:</h5>
+
                             {% for movie in actor.movies_with_actor.all %}
-                            <a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a><br>
-                            {% if not forloop.last %} {% endif %}
-                            {% empty %}
-                            Нет фильмов с данным актером
-                            {% endfor %}
+                        <li>
+                            <h5>
+                                <a href="{{ movie.get_absolute_url }}"
+                                   class="movie-link">{{ movie.title }}</a>
+                            </h5>
+                        </li>
+                        {% if not forloop.last %} {% endif %}
+                        {% empty %}
+                        Нет фильмов с данным актером
+                        {% endfor %}
                         </li>
                     </ul>
-                    <div class="actor-description">
-                        <h3 class="editContent">О {{ actor.name }}</h3>
-                        <p>
-                            {{ actor.description|safe }}
-                        </p>
-                    </div>
                 </div>
+                <div class="actor-description" style="text-align:center">
+                    <br>
+                    <h3 class="editContent">О {{ actor.name }}</h3>
+                    <h5><p>
+                        {{ actor.description|safe }}
+                    </p></h5>
+                </div>
+
+            </div>
+            <div style="text-align:center">
+                <input type="button" onclick="history.back();" class="pressed-button" value="Назад"/>
             </div>
         </div>
-        {% endblock movie %}
-
-
     </div>
 
+    {% endblock movie %}
+
+</div>
 </div>

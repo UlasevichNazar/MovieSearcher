@@ -12,7 +12,7 @@
         {% endblock sidebar %}
 
         {% block movie %}
-        <div class="left-ads-display col-lg-8" >
+        <div class="left-ads-display col-lg-8">
             <div class="row">
                 <img src="{{ movie.poster.url }}" class="img-fluid" alt="">
                 <div class="desc1-right col-md-6 pl-lg-10">
@@ -28,18 +28,24 @@
                         </li>
                         <br>
                         <li style="list-style: none">
-                                    <span><b>Режиссер:</b>
-                                        {{movie.director}}
-                                    </span>
+
+                            <span><b>Режиссер:</b>
+                             <li style="margin-left: 80px;list-style: square;">
+                                 <a href="{% url 'director_view' movie.director.name %}" class="movie-link">
+                                     {{movie.director.name}}</a></li>
+                                </span>
+
                         </li>
 
                         <li style="list-style: none"><span><b>Актеры:</b><br>
                         {% for actor in movie.actors.all %}
-                         <a href="{% url 'actor_view' actor.name %}" class="last">       {{ actor.name }}</a><br>
+                         <li style="margin-left: 80px;list-style: square;">
+                             <a href="{% url 'actor_view' actor.name %}" class="movie-link">
+                                 {{ actor.name }}</a></li><br>
                                  {% endfor %}
                                 </span>
                         </li>
-                        <br>
+
                         <li style="list-style: none"><span><b>Жанр:</b>
                         {% for genre in movie.genre.all %}
                             {{ genre.name }}
@@ -146,7 +152,7 @@
                                         {{ review.text }}
                                     </p>
                                 </div>
-                                {% if request.user == review.user or request.user == request.user.is_superuser %}
+                                {% if request.user == review.user or request.user == request.user.is_superuser or request.user == request.user.is_staff%}
                                 <form action="{% url 'delete_review' review.id %}" method="post">
                                     {% csrf_token %}
                                     <button type="submit" class="pressed-button">Удалить</button>

@@ -1,4 +1,12 @@
+from enum import Enum
+
 from django.contrib.auth.models import BaseUserManager
+
+
+class Role(Enum):
+    USER = "пользователь"
+    MANAGER = "менеджер"
+    ADMIN = "администратор"
 
 
 class MyCustomManager(BaseUserManager):
@@ -10,6 +18,7 @@ class MyCustomManager(BaseUserManager):
         username=None,
         password=None,
         free_mailing_list=None,
+        status=None,
         **extra_fields
     ):
         if not username:
@@ -19,7 +28,7 @@ class MyCustomManager(BaseUserManager):
             email = self.normalize_email(email)
         else:
             raise ValueError("Введите ваш email")
-        user = self.model(username=username, email=email, **extra_fields)
+        user = self.model(username=username, email=email, status=status, **extra_fields)
         user.set_password(password)
         if free_mailing_list:
             user.free_mailing_list = free_mailing_list
@@ -34,13 +43,14 @@ class MyCustomManager(BaseUserManager):
         username=None,
         password=None,
         free_mailing_list=None,
+        status=Role.USER.value,
         **extra_fields
     ):
         extra_fields.setdefault("is_superuser", False)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_active", True)
         return self._create_user(
-            email, username, password, free_mailing_list, **extra_fields
+            email, username, password, free_mailing_list, status, **extra_fields
         )
 
     def create_superuser(
@@ -49,11 +59,12 @@ class MyCustomManager(BaseUserManager):
         username=None,
         password=None,
         free_mailing_list=None,
+        status=Role.ADMIN.value,
         **extra_fields
     ):
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_active", True)
         return self._create_user(
-            email, username, password, free_mailing_list, **extra_fields
+            email, username, password, free_mailing_list, status, **extra_fields
         )

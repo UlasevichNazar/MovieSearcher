@@ -1,10 +1,17 @@
 import datetime
+from enum import Enum
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
 from user.managers import MyCustomManager
+
+
+class Role(Enum):
+    USER = "пользователь"
+    MANAGER = "менеджер"
+    ADMIN = "администратор"
 
 
 class User(AbstractUser, PermissionsMixin):
@@ -17,6 +24,12 @@ class User(AbstractUser, PermissionsMixin):
     )
     USERNAME_FIELD = "username"
     objects = MyCustomManager()
+    status = models.CharField(
+        "Статус",
+        max_length=15,
+        choices=[(role.value, role.name) for role in Role],
+        default=Role.USER.value,
+    )
 
     class Meta:
         verbose_name = "Пользователь"

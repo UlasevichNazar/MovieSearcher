@@ -4,6 +4,11 @@
 {% block movie %}
 <div class="left-ads-display col-lg-9">
     <div class="row">
+        {% if no_results %}
+        <div style="text-align:center; margin-left: 350px;">
+            <h1> Фильмы не найдены.</h1>
+        </div>
+        {% else %}
         {% for movie in movies %}
         <div class="col-md-4 product-men">
             <div class="text-center">
@@ -13,7 +18,7 @@
                 <div class="item-info-product">
                     <h4 class="">
                         <a href="{{ movie.get_absolute_url }}"
-                           class="editContent">
+                           class="editContent" style="color:white;">
                             {{ movie.title }}
                         </a>
                     </h4>
@@ -22,9 +27,11 @@
             </div>
         </div>
         {% endfor %}
+        {% endif %}
     </div>
     <div class="grid-img-right mt-4 text-right bg bg1">
         {% include 'include/pagination.html' %}
     </div>
 </div>
+
 {% endblock movie %}

@@ -1729,3 +1729,29 @@ a.move-top span {
 .actor-description {
     clear: both;
 }
+
+.movie-link {
+    color: white; /* Изначальный цвет фильмов */
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: color 0.3s; /* Плавный переход цвета при наведении */
+}
+
+.movie-link:hover {
+    color: red; /* Цвет при наведении */
+    text-decoration: none;
+}
+
+.movie-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 20px;
+}
