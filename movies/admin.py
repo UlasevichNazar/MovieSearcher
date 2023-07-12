@@ -165,7 +165,6 @@ class DirectorAdmin(PosterMixin, admin.ModelAdmin):
     )
 
 
-
 @admin.register(models.Actor)
 class ActorAdmin(PosterMixin, admin.ModelAdmin):
     list_display = (

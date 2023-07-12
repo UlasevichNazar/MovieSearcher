@@ -161,64 +161,66 @@ class Search(PoiskList, generic.ListView):
 
 
 def add_movie(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = MovieForm(request.POST, request.FILES)
         if form.is_valid():
             movie = form.save()  # Сохраняем фильм
-            return redirect('movie_detail', slug=movie.slug)  # Перенаправляем на страницу деталей фильма
+            return redirect(
+                "movie_detail", slug=movie.slug
+            )  # Перенаправляем на страницу деталей фильма
     else:
         form = MovieForm()
-    return render(request, 'movies/add_movie.html', {'form': form})
+    return render(request, "movies/add_movie.html", {"form": form})
 
 
 def add_category(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'movies/add_buttons.html')
+            return render(request, "movies/add_buttons.html")
     else:
         form = CategoryForm()
-    return render(request, 'movies/add_category.html', {'form': form})
+    return render(request, "movies/add_category.html", {"form": form})
 
 
 def add_genre(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = GenreForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'movies/add_buttons.html')
+            return render(request, "movies/add_buttons.html")
     else:
         form = GenreForm()
-    return render(request, 'movies/add_genre.html', {'form': form})
+    return render(request, "movies/add_genre.html", {"form": form})
 
 
 def add_director(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = DirectorForm(request.POST, request.FILES)  # Включаем файлы запроса
         if form.is_valid():
             form.save()
-            return render(request, 'movies/add_buttons.html')
+            return render(request, "movies/add_buttons.html")
     else:
         form = DirectorForm()
-    return render(request, 'movies/add_director.html', {'form': form})
+    return render(request, "movies/add_director.html", {"form": form})
 
 
 def add_actor(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ActorForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return render(request, 'movies/add_buttons.html')
+            return render(request, "movies/add_buttons.html")
     else:
         form = ActorForm()
-    return render(request, 'movies/add_actor.html', {'form': form})
+    return render(request, "movies/add_actor.html", {"form": form})
 
 
 def add_buttons(request):
-    return render(request, 'movies/add_buttons.html')
+    return render(request, "movies/add_buttons.html")
 
 
 def category_buttons(request):
     categories = Category.objects.all()
-    return render(request, 'movies/category_buttons.html', {'categories': categories})
+    return render(request, "movies/category_buttons.html", {"categories": categories})
