@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Редактирование жанра{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h3 style="color:white;">Редактирование жанра "{{ genre.name }}"</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div style="text-align: center;">
+                    <button type="submit" class="pressed-button" style="cursor: pointer;">Сохранить</button>
+                    <button type="button" class="pressed-button" onclick="window.location.href='{% url 'genre_list' %}'" style="cursor: pointer;">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

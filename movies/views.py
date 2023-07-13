@@ -265,24 +265,22 @@ def add_genre(request):
 
 def add_director(request):
     if request.method == "POST":
-
         form = DirectorForm(request.POST, request.FILES)
-
         if form.is_valid():
             form.save()
             return render(request, "movies/add_buttons.html")
-        else:
-            form = DirectorForm()
+    else:
+        form = DirectorForm()
 
-        return render(
-            request,
-            "movies/add_director.html",
-            {
-                "form": form,
-                "categories": Category.objects.all(),
-                "title": "Добавить режиссера",
-            },
-        )
+    return render(
+        request,
+        "movies/add_director.html",
+        {
+            "form": form,
+            "categories": Category.objects.all(),
+            "title": "Добавить режиссера",
+        },
+    )
 
 
 def add_actor(request):
@@ -419,3 +417,142 @@ def update_status(request):
         "movies/update_status.html",
         {"form": form, "categories": Category.objects.all()},
     )
+
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'movies/category_list.html', {'categories': Category.objects.all()})
+
+
+def edit_category(request, category_id):
+    category = Category.objects.get(id=category_id)
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm(instance=category)
+
+    return render(request, 'movies/edit_category.html', {'form': form, 'categories': Category.objects.all()})
+
+
+def delete_category(request, category_id):
+    category = Category.objects.get(pk=category_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'movies/delete_category.html', {'categories': Category.objects.all()})
+
+
+def genre_list(request):
+    genres = Genre.objects.all()
+    return render(request, 'movies/genre_list.html', {'genres': genres, 'categories': Category.objects.all()})
+
+
+def edit_genre(request, genre_id):
+    genre = Genre.objects.get(id=genre_id)
+
+    if request.method == 'POST':
+        form = GenreForm(request.POST, instance=genre)
+        if form.is_valid():
+            form.save()
+            return redirect('genre_list')
+    else:
+        form = GenreForm(instance=genre)
+
+    return render(request, 'movies/edit_genre.html',
+                  {'form': form, 'genre': genre, 'categories': Category.objects.all()})
+
+
+def delete_genre(request, genre_id):
+    genre = Genre.objects.get(pk=genre_id)
+    if request.method == 'POST':
+        genre.delete()
+        return redirect('genre_list')
+    return render(request, 'movies/delete_genre.html', {'genre': genre, 'categories': Category.objects.all()})
+
+
+def actor_list(request):
+    actors = Actor.objects.all()
+    return render(request, 'movies/actor_list.html', {'actors': actors, 'categories': Category.objects.all()})
+
+
+def edit_actor(request, actor_id):
+    actor = Actor.objects.get(id=actor_id)
+
+    if request.method == 'POST':
+        form = ActorForm(request.POST, request.FILES, instance=actor)
+        if form.is_valid():
+            form.save()
+            return redirect('actor_list')
+    else:
+        form = ActorForm(instance=actor)
+
+    return render(request, 'movies/edit_actor.html',
+                  {'form': form, 'actor': actor, 'categories': Category.objects.all()})
+
+
+def delete_actor(request, actor_id):
+    actor = Actor.objects.get(pk=actor_id)
+    if request.method == 'POST':
+        actor.delete()
+        return redirect('actor_list')
+    return render(request, 'movies/delete_actor.html', {'actor': actor, 'categories': Category.objects.all()})
+
+
+def director_list(request):
+    directors = Director.objects.all()
+    return render(request, 'movies/director_list.html', {'directors': directors, 'categories': Category.objects.all()})
+
+
+def edit_director(request, director_id):
+    director = Director.objects.get(id=director_id)
+
+    if request.method == 'POST':
+        form = DirectorForm(request.POST, request.FILES, instance=director)
+        if form.is_valid():
+            form.save()
+            return redirect('director_list')
+    else:
+        form = DirectorForm(instance=director)
+
+    return render(request, 'movies/edit_director.html',
+                  {'form': form, 'director': director, 'categories': Category.objects.all()})
+
+
+def delete_director(request, director_id):
+    director = Director.objects.get(pk=director_id)
+    if request.method == 'POST':
+        director.delete()
+        return redirect('director_list')
+    return render(request, 'movies/delete_director.html', {'director': director, 'categories': Category.objects.all()})
+
+
+def movie_list_admin(request):
+    movies = Movie.objects.all()
+    return render(request, 'movies/movie_list_admin.html', {'movies': movies, 'categories': Category.objects.all()})
+
+
+def edit_movie(request, movie_id):
+    movie = Movie.objects.get(id=movie_id)
+
+    if request.method == 'POST':
+        form = MovieForm(request.POST, request.FILES, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect('movie_list_admin')
+    else:
+        form = MovieForm(instance=movie)
+
+    return render(request, 'movies/edit_movie.html',
+                  {'form': form, 'movie': movie, 'categories': Category.objects.all()})
+
+
+def delete_movie(request, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    if request.method == 'POST':
+        movie.delete()
+        return redirect('movie_list_admin')
+    return render(request, 'movies/delete_movie.html', {'movie': movie, 'categories': Category.objects.all()})

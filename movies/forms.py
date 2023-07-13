@@ -23,6 +23,7 @@ class RaitingForm(forms.ModelForm):
         model = Raiting
         fields = ["rating"]
 
+
 class CategoryForm(forms.ModelForm):
     description = forms.CharField(
         label="Описание", widget=forms.Textarea(attrs={"class": "form-control"})
@@ -81,7 +82,6 @@ class ActorForm(forms.ModelForm):
     class Meta:
         model = Actor
         fields = "__all__"
-
 
 
 class MovieImageForm(forms.ModelForm):
@@ -193,4 +193,3 @@ class UpdateStatusForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ("status",)
-
