@@ -498,6 +498,15 @@ a.btn.active {
     border: #10adfb;
 }
 
+.delete-link {
+  color: red;
+  text-decoration: none;
+}
+
+.delete-link:hover {
+  color: darkred;
+}
+
 .button-container {
   display: flex;
   justify-content: center;

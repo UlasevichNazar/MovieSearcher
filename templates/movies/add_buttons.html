@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-12">
 
             <body>
             {% if user.is_superuser %}
@@ -19,8 +19,16 @@
                     <button class="pressed-button" style="cursor: pointer;">Добавить жанр</button>
                 </a>
 
+                <a href="{% url 'genre_list' %}">
+                    <button class="pressed-button" style="cursor: pointer;">Изменить жанр</button>
+                </a>
+
                 <a href="{% url 'add_category' %}">
                     <button class="pressed-button" style="cursor: pointer;">Добавить категорию</button>
+                </a>
+
+                <a href="{% url 'category_list' %}">
+                    <button class="pressed-button" style="cursor: pointer;">Изменить категорию</button>
                 </a>
             </div>
             <br><br><br>
@@ -29,14 +37,26 @@
                     <button class="pressed-button">Добавить актера</button>
                 </a>
 
+                <a href="{% url 'actor_list' %}" style="cursor: pointer;">
+                    <button class="pressed-button">Изменить актера</button>
+                </a>
+
                 <a href="{% url 'add_director' %}" style="cursor: pointer;">
                     <button class="pressed-button">Добавить режиссера</button>
+                </a>
+
+                <a href="{% url 'director_list' %}" style="cursor: pointer;">
+                    <button class="pressed-button">Изменить режиссера</button>
                 </a>
             </div>
             <br><br><br>
             <div style="text-align:center">
                 <a href="{% url 'add_movie' %}">
                     <button class="pressed-button" style="cursor: pointer;">Добавить фильм</button>
+                </a>
+
+                <a href="{% url 'movie_list_admin' %}">
+                    <button class="pressed-button" style="cursor: pointer;">Изменить фильм</button>
                 </a>
 
                 <a href="{% url 'add_image' %}">
