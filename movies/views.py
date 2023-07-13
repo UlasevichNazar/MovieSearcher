@@ -382,7 +382,11 @@ def get_user(request):
     return render(
         request,
         "movies/get_user.html",
-        {"form": form, "categories": Category.objects.all()},
+        {
+            "form": form,
+            "categories": Category.objects.all(),
+            "title": "Выбрать пользователя",
+        },
     )
 
 
@@ -417,5 +421,9 @@ def update_status(request):
     return render(
         request,
         "movies/update_status.html",
-        {"form": form, "categories": Category.objects.all()},
+        {
+            "form": form,
+            "categories": Category.objects.all(),
+            "title": "Обновить статус",
+        },
     )

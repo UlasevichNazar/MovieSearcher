@@ -1,3 +1,5 @@
+from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator
 from rest_framework import serializers
 
 from api.serializers.movies_serializers.internal import MovieInternalSerializer
@@ -20,3 +22,19 @@ class CreateRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Raiting
         fields = ("user", "movie", "rating")
+
+
+class UpdateRatingSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    rating = serializers.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
+    )
+
+    class Meta:
+        model = Raiting
+        fields = ("user", "movie", "rating")
+
+    def change_rating(self, instance, validated_data):
+        instance.rating = validated_data.get("rating", instance.rating)
+        instance.save()
+        return instance
