@@ -5,6 +5,8 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAdminUser
 
+from api.permissions import IsManager
+from api.serializers.movies_serializers.api import AdminMovieViewSerializer
 from api.serializers.movies_serializers.api import MovieCreateUpdateSerializer
 from api.serializers.movies_serializers.api import MovieRetrieveSerializer
 from api.serializers.movies_serializers.api import MovieViewSerializer
@@ -22,6 +24,11 @@ class MovieListView(generics.ListAPIView):
     queryset = Movie.objects.all()
     serializer_class = MovieViewSerializer
     permission_classes = (AllowAny,)
+
+    def get_serializer_class(self):
+        if self.request.user.is_superuser or self.request.user.is_staff:
+            return AdminMovieViewSerializer
+        return MovieViewSerializer
 
 
 @extend_schema_view(
@@ -87,7 +94,7 @@ class MovieRetrieveView(generics.RetrieveAPIView):
     queryset = Movie.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = MovieRetrieveSerializer
-    lookup_field = "slug"  # Указываем поле, по которому будет выполняться поиск
+    lookup_field = "slug"
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -103,7 +110,7 @@ class MovieRetrieveView(generics.RetrieveAPIView):
 )
 class MovieUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser, IsManager)
     serializer_class = MovieCreateUpdateSerializer
 
     lookup_field = "slug"

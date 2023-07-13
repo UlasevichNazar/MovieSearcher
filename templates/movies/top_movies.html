@@ -13,11 +13,13 @@
                         <h2>{{ page_obj.start_index|add:forloop.counter0 }}</h2>
                     </div>
                     <div class="movie-poster" style="margin-right: 20px;">
-                        <img src="{{ movie.poster.url }}" class="img-fluid" alt="{{ movie.title }}">
+                        <img src="{{ movie.poster.url }}" style="width: 250px;height: 390px;" alt="{{ movie.title }}">
                     </div>
                     <div class="movie-details">
                         <a href="{% url 'movie_detail' movie.slug %}" class="movie-link"><h4
                                 class="movie-title">{{ movie.title }}</h4></a>
+
+
                         <p class="movie-rating">Рейтинг: {{ movie.average_rating }}</p>
                     </div>
                 </div>
