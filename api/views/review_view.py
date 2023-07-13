@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.permissions import IsAuthenticated
 
 from api.permissions import IsOwnerUser
-from api.serializers.rewiew_serializer.api import CreateReviewSerializer
-from api.serializers.rewiew_serializer.api import ReviewViewSerializer
+from api.serializers.rewiew.api import CreateReviewSerializer
+from api.serializers.rewiew.api import ReviewViewSerializer
 from movies.models import Review
 
 
