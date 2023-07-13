@@ -170,7 +170,7 @@ def delete_review(request, pk):
 
 class FilterMovies(PoiskList, generic.ListView):
     def get_queryset(self):
-        queryset = Movie.objects.all()
+        queryset = Movie.objects.filter(status=Movie.Status.PUBLISHED)
         if "category" in self.request.GET:
             queryset = queryset.filter(
                 category__in=self.request.GET.getlist("category")
@@ -202,7 +202,7 @@ class Search(PoiskList, generic.ListView):
         context["s"] = f'q={self.request.GET.get("s")}&'
         context["movies"] = movies
         context["no_results"] = (
-            len(movies) == 0
+                len(movies) == 0
         )  # Добавляем переменную для проверки наличия результатов
         context["categories"] = Category.objects.all()
 
@@ -214,7 +214,10 @@ def add_movie(request):
         form = MovieForm(request.POST, request.FILES)
         if form.is_valid():
             movie = form.save()  # Сохраняем фильм
-            return redirect("movie_detail", slug=movie.slug)
+            return redirect(
+                "movie_detail", slug=movie.slug
+            )  # Перенаправляем на страницу деталей фильма
+
     else:
         form = MovieForm()
     return render(
@@ -232,6 +235,7 @@ def add_category(request):
             return render(request, "movies/add_buttons.html")
     else:
         form = CategoryForm()
+
     return render(
         request,
         "movies/add_category.html",
@@ -251,6 +255,7 @@ def add_genre(request):
             return render(request, "movies/add_buttons.html")
     else:
         form = GenreForm()
+
     return render(
         request,
         "movies/add_genre.html",
@@ -260,21 +265,24 @@ def add_genre(request):
 
 def add_director(request):
     if request.method == "POST":
+
         form = DirectorForm(request.POST, request.FILES)
+
         if form.is_valid():
             form.save()
             return render(request, "movies/add_buttons.html")
-    else:
-        form = DirectorForm()
-    return render(
-        request,
-        "movies/add_director.html",
-        {
-            "form": form,
-            "categories": Category.objects.all(),
-            "title": "Добавить режиссера",
-        },
-    )
+        else:
+            form = DirectorForm()
+
+        return render(
+            request,
+            "movies/add_director.html",
+            {
+                "form": form,
+                "categories": Category.objects.all(),
+                "title": "Добавить режиссера",
+            },
+        )
 
 
 def add_actor(request):
@@ -285,6 +293,7 @@ def add_actor(request):
             return render(request, "movies/add_buttons.html")
     else:
         form = ActorForm()
+
     return render(
         request,
         "movies/add_actor.html",
@@ -294,6 +303,11 @@ def add_actor(request):
             "title": "Добавить актера",
         },
     )
+
+
+def category_buttons(request):
+    categories = Category.objects.all()
+    return render(request, "movies/category_buttons.html", {"categories": categories, "title": "Категории"})
 
 
 def add_movie_images(request):
@@ -320,6 +334,13 @@ def add_buttons(request):
         request,
         "movies/add_buttons.html",
         {"categories": Category.objects.all(), "title": "Добавить"},
+    )
+
+
+def about_us(request):
+    return render(
+        request,
+        "about_us/about_us.html"
     )
 
 
