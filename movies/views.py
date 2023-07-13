@@ -170,7 +170,7 @@ def delete_review(request, pk):
 
 class FilterMovies(PoiskList, generic.ListView):
     def get_queryset(self):
-        queryset = Movie.objects.all()
+        queryset = Movie.objects.filter(status=Movie.Status.PUBLISHED)
         if "category" in self.request.GET:
             queryset = queryset.filter(
                 category__in=self.request.GET.getlist("category")
@@ -236,7 +236,6 @@ def add_category(request):
     else:
         form = CategoryForm()
 
-
     return render(
         request,
         "movies/add_category.html",
@@ -248,7 +247,6 @@ def add_category(request):
     )
 
 
-
 def add_genre(request):
     if request.method == "POST":
         form = GenreForm(request.POST)
@@ -258,7 +256,6 @@ def add_genre(request):
     else:
         form = GenreForm()
 
-
     return render(
         request,
         "movies/add_genre.html",
@@ -266,10 +263,8 @@ def add_genre(request):
     )
 
 
-
 def add_director(request):
     if request.method == "POST":
-
 
         form = DirectorForm(request.POST, request.FILES)
 
@@ -290,7 +285,6 @@ def add_director(request):
         )
 
 
-
 def add_actor(request):
     if request.method == "POST":
         form = ActorForm(request.POST, request.FILES)
@@ -299,7 +293,6 @@ def add_actor(request):
             return render(request, "movies/add_buttons.html")
     else:
         form = ActorForm()
-
 
     return render(
         request,
@@ -312,15 +305,9 @@ def add_actor(request):
     )
 
 
-def add_buttons(request):
-    return render(request, "movies/add_buttons.html")
-
-
 def category_buttons(request):
     categories = Category.objects.all()
-    return render(request, "movies/category_buttons.html", {"categories": categories})
-
-
+    return render(request, "movies/category_buttons.html", {"categories": categories, "title": "Категории"})
 
 
 def add_movie_images(request):
@@ -347,6 +334,13 @@ def add_buttons(request):
         request,
         "movies/add_buttons.html",
         {"categories": Category.objects.all(), "title": "Добавить"},
+    )
+
+
+def about_us(request):
+    return render(
+        request,
+        "about_us/about_us.html"
     )
 
 
@@ -425,5 +419,3 @@ def update_status(request):
         "movies/update_status.html",
         {"form": form, "categories": Category.objects.all()},
     )
-
-
