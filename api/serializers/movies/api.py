@@ -1,15 +1,12 @@
 from rest_framework import serializers
 
-from api.serializers.actors_serializer.internal import ActorInternalSerializer
-from api.serializers.category_serializer.api import CategorySerializer
-from api.serializers.category_serializer.internal import CategoryInternalSerializer
-from api.serializers.director_serlalizers.api import DirectorSerializer
-from api.serializers.director_serlalizers.internal import DirectorInternalSerializer
-from api.serializers.genre_serializer.api import GenreSerializer
-from api.serializers.genre_serializer.internal import GenreInternalSerializer
-from api.serializers.movie_image_setializer.internal import MovieImageInternalSerializer
-from api.serializers.rating_serializers.api import RatingSerializer
-from api.serializers.rewiew_serializer.api import ReviewViewSerializer
+from api.serializers.actors.internal import ActorInternalSerializer
+from api.serializers.category.internal import CategoryInternalSerializer
+from api.serializers.director.internal import DirectorInternalSerializer
+from api.serializers.genre.internal import GenreInternalSerializer
+from api.serializers.movie_image.internal import MovieImageInternalSerializer
+from api.serializers.rating.api import RatingSerializer
+from api.serializers.rewiew.api import ReviewViewSerializer
 from movies.models import Movie
 
 
@@ -76,11 +73,6 @@ class MovieRetrieveSerializer(serializers.ModelSerializer):
 
 
 class MovieCreateUpdateSerializer(serializers.ModelSerializer):
-    actors = ActorInternalSerializer(many=True)
-    director = DirectorSerializer()
-    category = CategorySerializer()
-    genre = GenreSerializer(many=True)
-
     class Meta:
         model = Movie
         fields = (
@@ -98,3 +90,11 @@ class MovieCreateUpdateSerializer(serializers.ModelSerializer):
             "slug",
             "status",
         )
+
+
+class BeatMoviesSerializer(serializers.ModelSerializer):
+    average_rating = serializers.FloatField()
+
+    class Meta:
+        model = Movie
+        fields = ("title", "average_rating")

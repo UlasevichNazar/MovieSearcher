@@ -1760,7 +1760,7 @@ a.move-top span {
 }
 
 .movie-number {
-  display: inline-block;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 80px;
@@ -1769,5 +1769,5 @@ a.move-top span {
   border-radius: 100%;
   font-size: 24px;
   font-weight: bold;
-  margin-right: 20px;
+  flex-shrink: 0;
 }

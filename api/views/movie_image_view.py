@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAdminUser
 
 from api.permissions import IsManager
-from api.serializers.movie_image_setializer.api import MovieImageSerializer
+from api.serializers.movie_image.api import MovieImageSerializer
 from movies.models import Movie_image
 
 
