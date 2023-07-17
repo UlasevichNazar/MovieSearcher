@@ -1,7 +1,7 @@
 {% load movie_tags %}
 {% load static %}
-<div class="search-bar w3layouts-newsletter" >
-    <h3 class="sear-head editContent" style="color:white;" >Поиск фильма</h3>
+<div class="search-bar w3layouts-newsletter">
+    <h3 class="sear-head editContent" style="color:white;">Поиск фильма</h3>
     <form action="{% url 'search' %}" method="get" class="d-flex editContent">
         <input type="search" placeholder="Введите название..." name="s"
                class="form-control" required="">
@@ -12,7 +12,7 @@
 <!--preference -->
 <form method="get" action="{% url 'filter' %}">
     <div class="left-side">
-        <h3 class="sear-head editContent" style="color: white;" >Категория</h3>
+        <h3 class="sear-head editContent" style="color: white;">Категория</h3>
         <ul class="w3layouts-box-list">
             {% for category in view.get_category %}
             <li class="editContent">
@@ -24,7 +24,7 @@
     </div>
 
     <div class="left-side my-4">
-        <h3 class="sear-head editContent" style="color: white;" >Жанры</h3>
+        <h3 class="sear-head editContent" style="color: white;">Жанры</h3>
         {% for genre in view.get_genres %}
         <ul class="w3layouts-box-list">
             <li class="editContent">
@@ -36,17 +36,31 @@
     </div>
 
     <div class="left-side">
-    <h3 class="sear-head editContent" style="color: white;">Год</h3>
-    <ul class="w3layouts-box-list">
-        {% for year in view.get_years %}
+        <h3 class="sear-head editContent" style="color: white;">Год</h3>
+        <ul class="w3layouts-box-list">
+            {% for year in view.get_years %}
             <li class="editContent">
                 <input type="checkbox" class="checked" name="year" value="{{ year }}">
                 <span class="span editContent">{{ year }}</span>
             </li>
-        {% endfor %}
-    </ul>
-</div>
+            {% endfor %}
+        </ul>
+    </div>
     <button type="submit" class="pressed-button">Найти</button>
 </form><br>
 
-{% get_movie count=2%}
+<div class="deal-leftmk left-side">
+    <h3 class="sear-head editContent" style="color: white;">Скоро на сайте</h3>
+    {% for movie in soon_movies %}
+    <div class="special-sec1 row mt-3 editContent">
+        <div class="img-deals col-md-4">
+            <img src="{{ movie.poster.url }}" class="img-fluidd" alt="">
+        </div>
+        <div class="img-deal1 col-md-4">
+            <p class="editContent">{{ movie.title }}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>

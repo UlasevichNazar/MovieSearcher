@@ -66,7 +66,7 @@ actors_urlpatterns = [
 ]
 
 director_urlpatterns = [
-    path("director/", DirectorListView.as_view(), name="director_list"),
+    path("director/", DirectorListView.as_view(), name="directors_list"),
     path(
         "director/<int:pk>/", DirectorRetrieveView.as_view(), name="director_retrieve"
     ),

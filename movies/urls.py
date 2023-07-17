@@ -27,7 +27,7 @@ urlpatterns = [
     path("genres/<int:genre_id>/", views.edit_genre, name="edit_genre"),
     path("genres/<int:genre_id>/delete/", views.delete_genre, name="delete_genre"),
     path("add/director/", views.add_director, name="add_director"),
-    path("directors/", views.director_list, name="directors_list"),
+    path("directors/", views.director_list, name="all_directors_list"),
     path(
         "directors/edit/<int:director_id>/", views.edit_director, name="edit_director"
     ),
