@@ -15,7 +15,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
         upload_to="profile/",
-        default="profile/Без_названия_3.jpeg",
+        default="profile/defaul_user_image.png",
     )
 
 

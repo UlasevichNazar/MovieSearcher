@@ -144,35 +144,37 @@
                     <div class="pressed-button" onclick="toggleMediaContainer()">Открыть/Закрыть</div>
 
                     <!-- Контейнер с медиа-элементами -->
-                    <div id="media-container">
-                        {% for review in movie.reviews.all %}
-                        <div class="media py-5">
-                            <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
-                                 style="width:100px;height:100px;" alt="image">
-                            <div class="media-body mt-4">
-                                <h5 class="mt-0 editContent">
-                                    {{ review.user.username }}
-                                </h5>
-                                <div style="width: 400px;word-wrap: break-word;">
-                                    <p>
-                                        {{ review.text }}
-                                    </p>
-                                </div>
-                                <form action="{% url 'delete_review' review.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="pressed-button">Удалить</button>
-                                </form>
-
+                    {% for review in movie.reviews.all %}
+                    <div class="media py-5">
+                        <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
+                             style="width:100px;height:100px;" alt="image">
+                        <div class="media-body mt-4">
+                            <h5 class="mt-0 editContent">
+                                {{ review.user.username }}
+                            </h5>
+                            <div style="width: 400px; word-wrap: break-word;">
+                                <p>
+                                    {{ review.text }}
+                                </p>
                             </div>
+
+                            {% if review.user == request.user or request.user.is_superuser or request.user.is_staff %}
+                            <form action="{% url 'delete_review' review.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="pressed-button">Удалить</button>
+                            </form>
+                            {% endif %}
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
-    <div class="grid-img-right mt-4 text-right bg bg1">
-        {% include 'include/pagination.html' %}
-    </div>
+</div>
+<div class="grid-img-right mt-4 text-right bg bg1">
+    {% include 'include/pagination.html' %}
+</div>
 </div>
 {% endblock movie %}

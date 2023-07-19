@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django_select2.forms import Select2MultipleWidget
 
 from .models import Actor
 from .models import Category
@@ -131,9 +132,14 @@ class MovieForm(forms.ModelForm):
         max_value=2023,
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
+    # actors = forms.ModelMultipleChoiceField(
+    #     queryset=Actor.objects.all(),
+    #     widget=forms.CheckboxSelectMultiple,
+    #     label="Актеры",
+    # )
     actors = forms.ModelMultipleChoiceField(
         queryset=Actor.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=Select2MultipleWidget(attrs={"style": "width: 100%;height: 200px;"}),
         label="Актеры",
     )
 
@@ -144,7 +150,9 @@ class MovieForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-control"}),
     )
     genre = forms.ModelMultipleChoiceField(
-        queryset=Genre.objects.all(), widget=forms.CheckboxSelectMultiple, label="Жанры"
+        queryset=Genre.objects.all(),
+        widget=Select2MultipleWidget(attrs={"style": "width: 100%;height: 200px;"}),
+        label="Жанры",
     )
 
     category = forms.ModelChoiceField(

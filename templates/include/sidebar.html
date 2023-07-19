@@ -52,6 +52,7 @@
 <div class="deal-leftmk left-side">
     <h3 class="sear-head editContent" style="color: white;">Скоро на сайте</h3>
     {% for movie in soon_movies %}
+    {% if forloop.counter <= 3 %}
     <div class="special-sec1 row mt-3 editContent">
         <div class="img-deals col-md-4">
             <img src="{{ movie.poster.url }}" class="img-fluidd" alt="">
@@ -59,8 +60,34 @@
         <div class="img-deal1 col-md-4">
             <p class="editContent">{{ movie.title }}</p>
         </div>
-
     </div>
+    {% endif %}
     {% endfor %}
-
+</div><br>
+<div id="media-container">
+    <h3 class="sear-head editContent" style="color: white;">Последние комментарии</h3>
+    {% for review in reviews %}
+    {% if forloop.counter <= 5 %}
+    <div class="media py-5">
+        <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
+             style="width:85px;height:85px;" alt="image">
+        <div class="media-body">
+            <h6 class="mt-0 editContent">
+                {{review.movie.category}} -
+                <a href="{{ review.movie.get_absolute_url }}" class="movie-link">
+                    {{ review.movie.title }}
+                </a>
+            </h6>
+            <h6 class="mt-0 editContent">Пользователь
+                {{ review.user.username }}
+            </h6>
+            <div style="word-wrap: break-word;">
+                <p>
+                    {{ review.text }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
 </div>

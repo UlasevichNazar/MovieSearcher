@@ -86,6 +86,7 @@ class MovieList(PoiskList, generic.ListView):
         context["categories"] = Category.objects.all()
         context["title"] = "Главная страница"
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
         return context
 
     def get_queryset(self):
@@ -343,7 +344,11 @@ def delete_review(request, pk):
     :return: The movie's absolute url"""
     review = get_object_or_404(Review, pk=pk)
     review_movie = review.movie
-    if review.user == request.user:
+    if (
+        review.user == request.user
+        or request.user.is_superuser
+        or request.user.is_staff
+    ):
         review.delete()
     return redirect(review_movie.get_absolute_url())
 

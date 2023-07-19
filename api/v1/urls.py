@@ -125,6 +125,9 @@ user_profile_urlpatterns = [
     ),
 ]
 
+select2_urlpatterns = [
+    path("select2/", include("django_select2.urls")),
+]
 urlpatterns = (
     movie_urlpatterns
     + review_urlpatterns
@@ -136,4 +139,5 @@ urlpatterns = (
     + genre_urlpatterns
     + movie_image_urlpatterns
     + user_profile_urlpatterns
+    + select2_urlpatterns
 )
