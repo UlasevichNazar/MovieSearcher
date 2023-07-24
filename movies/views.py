@@ -15,8 +15,14 @@ from . import models
 from .forms import ActorForm
 from .forms import AddReviewForm
 from .forms import CategoryForm
+from .forms import DeleteUserForm
 from .forms import DirectorForm
 from .forms import GenreForm
+from .forms import GetActorForm
+from .forms import GetCategoryForm
+from .forms import GetDirectorForm
+from .forms import GetGenreForm
+from .forms import GetMovieForm
 from .forms import GetUserForm
 from .forms import MovieForm
 from .forms import MovieImageForm
@@ -119,6 +125,7 @@ class MovieDetail(PoiskList, generic.DetailView):
         context["movies"] = self.get_queryset().distinct()
         context["categories"] = Category.objects.all()
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
 
         user = self.request.user
         if not user.is_anonymous:
@@ -177,6 +184,8 @@ class ActorView(PoiskList, DetailView):
         context = super().get_context_data(*args, **kwargs)
         context["categories"] = Category.objects.all()
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
+
         return context
 
 
@@ -192,6 +201,8 @@ class DirectorView(PoiskList, DetailView):
         context["categories"] = Category.objects.all()
         context["director_name"] = self.object.name
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
+
         return context
 
 
@@ -234,6 +245,8 @@ class AddReview(FormView):
         context = super().get_context_data(**kwargs)
         context["movie"] = self.movie
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
+
         return context
 
 
@@ -268,6 +281,8 @@ class FilterMovies(PoiskList, generic.ListView):
         context["category"] = "".join([x for x in self.request.GET.getlist("category")])
         context["title"] = "Поиск фильма"
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
+
         return context
 
 
@@ -290,6 +305,8 @@ class Search(PoiskList, generic.ListView):
         context["no_results"] = len(movies) == 0
         context["categories"] = Category.objects.all()
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
+
         return context
 
 
@@ -323,6 +340,8 @@ class TopMoviesView(PoiskList, ListView):
         context["categories"] = Category.objects.all()
         context["title"] = "Лучшие фильмы"
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
+        context["reviews"] = Review.objects.order_by("-id")
+
         return context
 
 
@@ -567,8 +586,14 @@ def update_status(request):
 
 
 def category_list(request):
+    categories = Category.objects.all()
+    form = GetCategoryForm(request.GET)
+    search_query = request.GET.get("search", "")
+
+    if search_query:
+        categories = categories.filter(name__icontains=search_query)
     return render(
-        request, "movies/category_list.html", {"categories": Category.objects.all()}
+        request, "movies/category_list.html", {"categories": categories, "form": form}
     )
 
 
@@ -602,10 +627,16 @@ def delete_category(request, category_id):
 
 def genre_list(request):
     genres = Genre.objects.all()
+    form = GetGenreForm()
+    search_query = request.GET.get("search", "")
+
+    if search_query:
+        genres = genres.filter(name__icontains=search_query)
+
     return render(
         request,
         "movies/genre_list.html",
-        {"genres": genres, "categories": Category.objects.all()},
+        {"genres": genres, "categories": Category.objects.all(), "form": form},
     )
 
 
@@ -641,10 +672,16 @@ def delete_genre(request, genre_id):
 
 def actor_list(request):
     actors = Actor.objects.all()
+    form = GetActorForm(request.GET)
+    search_query = request.GET.get("search", "")
+
+    if search_query:
+        actors = actors.filter(name__icontains=search_query)
+
     return render(
         request,
         "movies/actor_list.html",
-        {"actors": actors, "categories": Category.objects.all()},
+        {"actors": actors, "categories": Category.objects.all(), "form": form},
     )
 
 
@@ -680,10 +717,15 @@ def delete_actor(request, actor_id):
 
 def director_list(request):
     directors = Director.objects.all()
+    form = GetDirectorForm()
+    search_query = request.GET.get("search", "")
+
+    if search_query:
+        directors = directors.filter(name__icontains=search_query)
     return render(
         request,
         "movies/director_list.html",
-        {"directors": directors, "categories": Category.objects.all()},
+        {"directors": directors, "categories": Category.objects.all(), "form": form},
     )
 
 
@@ -719,10 +761,15 @@ def delete_director(request, director_id):
 
 def movie_list_admin(request):
     movies = Movie.objects.all()
+    form = GetMovieForm()
+    search_query = request.GET.get("search", "")
+
+    if search_query:
+        movies = movies.filter(title__icontains=search_query)
     return render(
         request,
         "movies/movie_list_admin.html",
-        {"movies": movies, "categories": Category.objects.all()},
+        {"movies": movies, "categories": Category.objects.all(), "form": form},
     )
 
 
@@ -753,4 +800,28 @@ def delete_movie(request, movie_id):
         request,
         "movies/delete_movie.html",
         {"movie": movie, "categories": Category.objects.all()},
+    )
+
+
+def delete_user(request):
+    if request.method == "POST":
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            try:
+                user = get_user_model().objects.get(username=username)
+                user.delete()
+                return redirect("add_buttons")
+            except get_user_model().DoesNotExist:
+                pass  # Можно добавить обработку, если пользователь с таким именем не найден
+    else:
+        form = DeleteUserForm()
+    return render(
+        request,
+        "movies/delete_user.html",
+        {
+            "form": form,
+            "categories": Category.objects.all(),
+            "title": "Удалить пользователя",
+        },
     )

@@ -132,11 +132,7 @@ class MovieForm(forms.ModelForm):
         max_value=2023,
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
-    # actors = forms.ModelMultipleChoiceField(
-    #     queryset=Actor.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,
-    #     label="Актеры",
-    # )
+
     actors = forms.ModelMultipleChoiceField(
         queryset=Actor.objects.all(),
         widget=Select2MultipleWidget(attrs={"style": "width: 100%;height: 200px;"}),
@@ -201,3 +197,74 @@ class UpdateStatusForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ("status",)
+
+
+class GetActorForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Имя актера",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Actor
+        fields = ("name",)
+
+
+class GetCategoryForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Название категории",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Category
+        fields = ("name",)
+
+
+class GetGenreForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Название жанра",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Genre
+        fields = ("name",)
+
+
+class GetDirectorForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Имя режиссера",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Director
+        fields = ("name",)
+
+
+class GetMovieForm(forms.ModelForm):
+    title = forms.CharField(
+        label="Название фильма",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Movie
+        fields = ("title",)
+
+
+class DeleteUserForm(forms.Form):
+    username = forms.CharField(
+        label="Имя пользователя",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ("username",)

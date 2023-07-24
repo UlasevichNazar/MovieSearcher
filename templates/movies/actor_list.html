@@ -4,8 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <h3 style="color:white; text-align: center;">Выберите актера:</h3><br><br><br>
-<!--            <div style="display: flex; justify-content: center;">-->
+            <h3 style="color:white; text-align: center;">Поиск актера:</h3>
+            <form method="get" style="text-align: center;">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="Введите имя актера" value="{{ request.GET.search }}">
+                <button type="submit" class="pressed-button">Найти</button>
+            </form>
+            <br><br><br>
             <div style="text-align: center;">
                 <ul style="list-style-type: none; padding: 0;">
                     {% for actor in actors %}
@@ -13,13 +18,9 @@
                         <a href="{% url 'edit_actor' actor_id=actor.id %}">
                             <button class="pressed-button" style="cursor: pointer;">{{ actor.name }}</button>
                         </a>
-
                         <br>
-
                         <a href="{% url 'delete_actor' actor_id=actor.id %}"
                            class="delete-link" style="text-decoration: none; display: block; text-align: center;">Удалить</a>
-
-
                         <br><br><br>
                     </li>
                     {% endfor %}
@@ -28,7 +29,6 @@
   text-decoration: none;cursor: pointer; "> Назад</a></button>
                     </div>
                 </ul>
-
             </div>
         </div>
     </div>

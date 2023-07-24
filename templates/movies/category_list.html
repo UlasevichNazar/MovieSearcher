@@ -5,7 +5,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <h3 style="color:white; text-align: center;">Выберите категорию:</h3><br><br><br>
+            <h3 style="color:white; text-align: center;">Поиск категории:</h3><br><br><br>
+            <form method="get" style="text-align: center;">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="Введите название категории"
+                       value="{{ request.GET.search }}">
+                <button type="submit" class="pressed-button">Найти</button>
+            </form>
+            <br><br><br>
             <div style="display: flex; justify-content: center;">
                 <ul style="list-style-type: none; padding: 0;">
                     {% for category in categories %}
