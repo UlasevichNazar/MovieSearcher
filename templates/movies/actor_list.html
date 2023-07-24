@@ -13,6 +13,7 @@
             <br><br><br>
             <div style="text-align: center;">
                 <ul style="list-style-type: none; padding: 0;">
+                    {% if actors %}
                     {% for actor in actors %}
                     <li style="display: inline-block; margin-right: 10px;">
                         <a href="{% url 'edit_actor' actor_id=actor.id %}">
@@ -28,6 +29,10 @@
                         <button type="submit" class="pressed-button"><a href="{% url 'add_buttons' %}" style="color: inherit;
   text-decoration: none;cursor: pointer; "> Назад</a></button>
                     </div>
+                    {% else %}
+                        <h1><p style="text-align: center; color: white;">Актеров не найдено</p></h1>
+                    {% endif %}
+                    <br><br><br>
                 </ul>
             </div>
         </div>

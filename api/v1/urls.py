@@ -28,6 +28,8 @@ from api.views.review_view import DestroyReviewView
 from api.views.review_view import ReviewView
 from api.views.user_profile import UserProfileUpdateView
 from api.views.user_profile import UserProfileView
+from api.views.user_view import DeleteUserView
+from api.views.user_view import GetUserView
 
 router = DefaultRouter()
 router.register("rating", RatingView, basename="rating")
@@ -124,6 +126,10 @@ user_profile_urlpatterns = [
         name="update_user_profile",
     ),
 ]
+user_urlpatterns = [
+    path("user/", GetUserView.as_view(), name="all_users"),
+    path("user/delete/<int:pk>/", DeleteUserView.as_view(), name="delete_user_view"),
+]
 
 select2_urlpatterns = [
     path("select2/", include("django_select2.urls")),
@@ -139,5 +145,6 @@ urlpatterns = (
     + genre_urlpatterns
     + movie_image_urlpatterns
     + user_profile_urlpatterns
+    + user_urlpatterns
     + select2_urlpatterns
 )

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
@@ -592,6 +593,8 @@ def category_list(request):
 
     if search_query:
         categories = categories.filter(name__icontains=search_query)
+        # if not categories:
+
     return render(
         request, "movies/category_list.html", {"categories": categories, "form": form}
     )
@@ -811,11 +814,13 @@ def delete_user(request):
             try:
                 user = get_user_model().objects.get(username=username)
                 user.delete()
+                messages.success(request, f"Пользователь {username} успешно удален.")
                 return redirect("add_buttons")
             except get_user_model().DoesNotExist:
-                pass  # Можно добавить обработку, если пользователь с таким именем не найден
+                messages.error(request, f"Пользователь {username} не найден.")
     else:
         form = DeleteUserForm()
+
     return render(
         request,
         "movies/delete_user.html",

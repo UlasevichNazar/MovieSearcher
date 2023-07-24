@@ -66,7 +66,7 @@
                         </li>
                         <br>
                         <li style="list-style: none">
-                            <a><b>Рейтинг пользователей:</b>
+                            <a><b>Рейтинг фильма:</b>
                                 {{ average_rating|floatformat:1 }}
                             </a>
                         </li>
@@ -74,6 +74,11 @@
                             <a><b>Количество оценок:</b>
                                 {{ rating_count }}
                             </a>
+                            {% if request.user.is_anonymous %}
+                            <button type="submit" class="pressed-button">
+                                <a href="{% url 'django_login' %}" style="color: white;text-decoration: none;">Поставить
+                                    оценку</a></button>
+                            {% endif %}
                             {% if rating_form %}
                             {% if rating_id %}
                             <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">

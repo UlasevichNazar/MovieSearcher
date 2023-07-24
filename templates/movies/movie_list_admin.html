@@ -13,6 +13,7 @@
             <br><br><br>
             <div style="display: flex; justify-content: center;">
                 <ul style="list-style-type: none; padding: 0;">
+                    {% if movies %}
                     {% for movie in movies %}
                     <li style="display: inline-block; margin-right: 10px;">
                         <a href="{% url 'edit_movie' movie_id=movie.id %}">
@@ -24,6 +25,10 @@
                         <br><br><br><br><br><br><br>
                     </li>
                     {% endfor %}
+                    {% else %}
+                    <h1><p style="text-align: center; color: white;">Фильмов не найдено</p></h1>
+                    {% endif %}
+                    <br><br><br>
                 </ul>
             </div>
         </div>

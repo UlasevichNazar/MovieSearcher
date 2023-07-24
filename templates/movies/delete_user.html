@@ -9,6 +9,13 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 {{ form.username.errors }}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
                 <div style="text-align: center;">
                     <button type="submit" class="pressed-button"><a href="{% url 'add_buttons' %}" style="color: inherit;
   text-decoration: none;cursor: pointer;"> Назад</a></button>
