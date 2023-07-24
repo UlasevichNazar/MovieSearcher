@@ -41,11 +41,13 @@
                         <div class="form-outline mb-4">
                             <label class="form-label" style="color:white">Логин</label>
                             {{ form.username }}
+                            <p style="text-color: white"> {{ form.username.errors }}</p>
                         </div>
 
                         <div class="form-outline mb-4">
                             <label class="form-label" style="color:white">Пароль</label>
                             {{ form.password }}
+                            <p style="text-color: white"> {{ form.password.errors }}</p>
 
                         </div>
 

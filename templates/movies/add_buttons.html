@@ -11,6 +11,11 @@
                 <a href="{% url 'get_user' %}">
                     <button class="pressed-button" style="cursor: pointer;">Изменить пользователя</button>
                 </a>
+                {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'delete_user' %}">
+                    <button class="pressed-button" style="cursor: pointer;">Удалить пользователя</button>
+                </a>
+                {% endif %}
             </div>
             <br><br><br>
             {% endif %}
@@ -45,7 +50,7 @@
                     <button class="pressed-button">Добавить режиссера</button>
                 </a>
 
-                <a href="{% url 'directors_list' %}" style="cursor: pointer;">
+                <a href="{% url 'all_directors_list' %}" style="cursor: pointer;">
                     <button class="pressed-button">Изменить режиссера</button>
                 </a>
             </div>

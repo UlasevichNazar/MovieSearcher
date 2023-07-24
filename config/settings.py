@@ -30,6 +30,7 @@ INSTALLED_APPS += [
     "ckeditor_uploader",
     "rest_framework",
     "drf_spectacular",
+    "django_select2",
 ]
 
 # apps

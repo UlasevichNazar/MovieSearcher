@@ -4,9 +4,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <h3 style="color:white; text-align: center;">Выберите режиссера:</h3><br><br><br>
+            <h3 style="color:white; text-align: center;">Поиск режиссера:</h3>
+            <form method="get" style="text-align: center;">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="Введите имя режиссера" value="{{ request.GET.search }}">
+                <button type="submit" class="pressed-button">Найти</button>
+            </form>
+            <br><br><br>
             <div style="display: flex; justify-content: center;">
                 <ul style="list-style-type: none; padding: 0;">
+                    {%if directors%}
                     {% for director in directors %}
                     <li style="display: inline-block; margin-right: 10px;">
                         <a href="{% url 'edit_director' director_id=director.id %}">
@@ -20,6 +27,10 @@
                         <br><br><br><br><br><br><br>
                     </li>
                     {% endfor %}
+                    {% else %}
+                    <h1><p style="text-align: center; color: white;">Режиссеров не найдено</p></h1>
+                    {% endif %}
+                    <br><br><br>
                 </ul>
             </div>
         </div>
