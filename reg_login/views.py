@@ -12,6 +12,17 @@ from userprofile.models import Profile
 
 
 class Register(CreateView):
+    """
+    The get_context_data function is a method of the generic class-based view that allows you to add additional context
+    variables to the template.
+    The get_context_data function takes in **kwargs, which are keyword arguments passed from the view.
+    In this case, we're adding a title variable with value Регистрация.
+
+    :param self: Represent the instance of the object
+    :param **kwargs: Pass keyworded, variable-length argument list
+    :return: A dictionary with the context of the template
+    """
+
     form_class = RegisterUserForm
     template_name = "registration/register.html"
     redirect_authenticated_user = True
@@ -33,6 +44,17 @@ class Register(CreateView):
 
 
 class LoginUser(LoginView):
+    """
+    The get_context_data function is a method of the generic class-based view that allows you to add additional context
+    variables to the template.
+    The get_context_data function takes in **kwargs, which are keyword arguments passed from the view.
+    In this case, we're adding a title variable with value Войти.
+
+    :param self: Represent the instance of the object
+    :param **kwargs: Pass keyworded, variable-length argument list
+    :return: A dictionary that contains the context for the template
+    """
+
     from_class = LoginUserForm
     template_name = "login/login.html"
 
@@ -43,5 +65,11 @@ class LoginUser(LoginView):
 
 
 def logout_user(request):
+    """
+    The logout_user function logs out the user and redirects them to the login page.
+
+    :param request: Pass the request object to the view
+    :return: A redirect to the django_login view
+    """
     logout(request)
     return redirect("django_login")
