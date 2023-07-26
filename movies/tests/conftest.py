@@ -1,4 +1,6 @@
 import pytest
+from django.test import Client
+from django.test.client import RequestFactory
 
 from movies.models import Actor
 from movies.models import Category
@@ -86,6 +88,17 @@ def user() -> User:
 
 
 @pytest.fixture
+def superuser() -> User:
+    superuser = User.objects.create_superuser(
+        username="Test super",
+        email="test@testsuper.com",
+        password="testtestsuper123321",
+        free_mailing_list=False,
+    )
+    return superuser
+
+
+@pytest.fixture
 def review(user, movie) -> Review:
     review = Review.objects.create(user=user, text="test review", movie=movie)
     return review
@@ -95,3 +108,14 @@ def review(user, movie) -> Review:
 def rating(user, movie) -> Raiting:
     rating = Raiting.objects.create(user=user, movie=movie, rating=5)
     return rating
+
+
+@pytest.fixture
+def factory():
+    return RequestFactory()
+
+
+@pytest.fixture
+def client():
+    client = Client()
+    return client
