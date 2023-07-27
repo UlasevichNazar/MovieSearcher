@@ -10,7 +10,12 @@
                     <div class="form-group">
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <b style="color:white">{{ form.as_p }}</b>
+                            <b style="color:white">{{ form.username.label_tag }} {{ form.username }}<br><br>
+                                {{ form.email.label_tag }} {{ form.email }}<br><br>
+                                {{ form.birthday.label_tag }} {{ form.birthday }}<br><br>
+                                {{ form.free_mailing_list.label_tag }} {{ form.free_mailing_list }}<br><br>
+                                {{ form.bio.label_tag }} {{ form.bio }}<br><br>
+                                {{ form.profile_pic.label_tag }} {{ form.profile_pic }}<br><br></b>
 
                             <div style="
                                 text-align: center;">

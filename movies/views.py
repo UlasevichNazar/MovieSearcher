@@ -14,7 +14,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from movies import models
-from movies.forms import ActorForm
+from movies.forms import ActorForm, EditReviewForm
 from movies.forms import AddReviewForm
 from movies.forms import CategoryForm
 from movies.forms import DeleteUserForm
@@ -1107,3 +1107,17 @@ def delete_user(request):
 
 
 ########################################################################################################################
+
+
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+
+    if request.method == "POST":
+        form = EditReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('movie_detail', slug=review.movie.slug)
+    else:
+        form = EditReviewForm(instance=review)
+
+    return render(request, 'movies/edit_review.html', {'form': form, 'review': review})
