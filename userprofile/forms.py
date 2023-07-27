@@ -9,7 +9,7 @@ class UserProfileForm(UserChangeForm):
         label="Логин", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     email = forms.CharField(
-        label="Eamil", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Email", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     birthday = forms.DateField(
         label="Дата рождения",
