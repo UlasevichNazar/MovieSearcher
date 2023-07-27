@@ -168,6 +168,9 @@
                                 {% csrf_token %}
                                 <button type="submit" class="pressed-button">Удалить</button>
                             </form>
+                            <a href="{% url 'edit_review' review.id%}">
+                                <button class="pressed-button" style="cursor: pointer;">Изменить</button>
+                            </a>
                             {% endif %}
                         </div>
                     </div>

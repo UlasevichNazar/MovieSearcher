@@ -268,3 +268,9 @@ class DeleteUserForm(forms.Form):
     class Meta:
         model = get_user_model()
         fields = ("username",)
+
+
+class EditReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['text']
