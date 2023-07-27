@@ -23,22 +23,26 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label" style="color:white">Логин</label><br>
                                     {{ form.username }}
+                                    <p style="text-color: white"> {{ form.username.errors }}</p>
 
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" style="color:white">Email</label>
                                     {{ form.email }}
+                                    <p style="text-color: white"> {{ form.email.errors }}</p>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" style="color:white">Пароль</label>
                                     {{ form.password1 }}
+                                    <p style="text-color: white"> {{ form.password1.errors }}</p>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" style="color:white">Повторите пароль</label>
                                     {{ form.password2 }}
+                                    <p style="text-color: white"> {{ form.password2.errors }} </p>
                                 </div>
 
                                 <div class="form-outline mb-4">

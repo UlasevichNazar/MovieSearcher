@@ -8,8 +8,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.serializers.rating_serializers.api import CreateRatingSerializer
-from api.serializers.rating_serializers.api import UpdateRatingSerializer
+from api.serializers.rating.api import CreateRatingSerializer
+from api.serializers.rating.api import UpdateRatingSerializer
 from movies.models import Raiting
 
 

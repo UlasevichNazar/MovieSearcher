@@ -22,33 +22,39 @@
                     <h5 class="editContent"></h5>
                     <ul>
                         <li style="list-style: none">
-                            <span><b>Год:</b> {{ movie.year }}</span></li>
+                            {% if movie.year %}
+                            <span><b>Год:</b><a href="/filter/?year={{ movie.year }}"
+
+                                                class="movie-link">{% endif %} {{ movie.year }}</a></span></li>
                         <li style="list-style: none">
-                            <span><b>Страна:</b> {{ movie.country }}</span>
+                            <span><b>Страна:</b><a href="/filter/?country={{ country.id }}"
+                                                   class="movie-link">  {{ movie.country }}</a></span>
                         </li>
                         <br>
                         <li style="list-style: none">
 
                             <span><b>Режиссер:</b>
-                             <li style="margin-left: 80px;list-style: square;">
+
                                  <a href="{% url 'director_view' movie.director.name %}" class="movie-link">
-                                     {{movie.director.name}}</a></li>
+                                     {{movie.director.name}}</a>
                                 </span>
 
                         </li>
+                        <br>
 
-                        <li style="list-style: none"><span><b>Актеры:</b><br>
-                        {% for actor in movie.actors.all %}
-                         <li style="margin-left: 80px;list-style: square;">
-                             <a href="{% url 'actor_view' actor.name %}" class="movie-link">
-                                 {{ actor.name }}</a></li><br>
-                                 {% endfor %}
-                                </span>
+                        <li style="list-style: none">
+                            <span><b>Актеры:</b><br>
+                                {% for actor in movie.actors.all %}
+                                    <a href="{% url 'actor_view' actor.name %}" class="movie-link">
+                                        {{ actor.name }}</a>{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
                         </li>
+                        <br>
 
                         <li style="list-style: none"><span><b>Жанр:</b>
                         {% for genre in movie.genre.all %}
-                            {{ genre.name }}
+                         <a href="/filter/?genre={{ genre.id }}" class="movie-link">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                                     </span>
                         </li>
@@ -60,7 +66,7 @@
                         </li>
                         <br>
                         <li style="list-style: none">
-                            <a><b>Рейтинг пользователей:</b>
+                            <a><b>Рейтинг фильма:</b>
                                 {{ average_rating|floatformat:1 }}
                             </a>
                         </li>
@@ -68,6 +74,11 @@
                             <a><b>Количество оценок:</b>
                                 {{ rating_count }}
                             </a>
+                            {% if request.user.is_anonymous %}
+                            <button type="submit" class="pressed-button">
+                                <a href="{% url 'django_login' %}" style="color: white;text-decoration: none;">Поставить
+                                    оценку</a></button>
+                            {% endif %}
                             {% if rating_form %}
                             {% if rating_id %}
                             <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
@@ -138,36 +149,37 @@
                     <div class="pressed-button" onclick="toggleMediaContainer()">Открыть/Закрыть</div>
 
                     <!-- Контейнер с медиа-элементами -->
-                    <div id="media-container">
-                        {% for review in movie.reviews.all %}
-                        <div class="media py-5">
-                            <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
-                                 style="width:100px;height:100px;" alt="image">
-                            <div class="media-body mt-4">
-                                <h5 class="mt-0 editContent">
-                                    {{ review.user.username }}
-                                </h5>
-                                <div style="width: 400px;word-wrap: break-word;">
-                                    <p>
-                                        {{ review.text }}
-                                    </p>
-                                </div>
-                                {% if request.user == review.user or request.user == request.user.is_superuser or request.user == request.user.is_staff%}
-                                <form action="{% url 'delete_review' review.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="pressed-button">Удалить</button>
-                                </form>
-                                {% endif %}
+                    {% for review in movie.reviews.all %}
+                    <div class="media py-5">
+                        <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
+                             style="width:100px;height:100px;" alt="image">
+                        <div class="media-body mt-4">
+                            <h5 class="mt-0 editContent">
+                                {{ review.user.username }}
+                            </h5>
+                            <div style="width: 400px; word-wrap: break-word;">
+                                <p>
+                                    {{ review.text }}
+                                </p>
                             </div>
+
+                            {% if review.user == request.user or request.user.is_superuser or request.user.is_staff %}
+                            <form action="{% url 'delete_review' review.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="pressed-button">Удалить</button>
+                            </form>
+                            {% endif %}
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
-    <div class="grid-img-right mt-4 text-right bg bg1">
-        {% include 'include/pagination.html' %}
-    </div>
+</div>
+<div class="grid-img-right mt-4 text-right bg bg1">
+    {% include 'include/pagination.html' %}
+</div>
 </div>
 {% endblock movie %}

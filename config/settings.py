@@ -30,10 +30,12 @@ INSTALLED_APPS += [
     "ckeditor_uploader",
     "rest_framework",
     "drf_spectacular",
+    "django_select2",
 ]
 
 # apps
 INSTALLED_APPS += [
+    "django_filters",
     "user",
     "movies",
     "userprofile",
@@ -143,6 +145,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_FILTER_BACKEND": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -156,7 +159,7 @@ DJOSER = {
     "ACTIVATION_URL": "#/activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": True,
     "SERIALIZERS": {
-        "user_create": "api.serializers.reg_login_serializers.registration.RegisterSerializer",
+        "user_create": "api.serializers.reg_login.registration.RegisterSerializer",
     },
 }
 

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django_select2.forms import Select2MultipleWidget
 
 from .models import Actor
 from .models import Category
@@ -131,9 +132,10 @@ class MovieForm(forms.ModelForm):
         max_value=2023,
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
+
     actors = forms.ModelMultipleChoiceField(
         queryset=Actor.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=Select2MultipleWidget(attrs={"style": "width: 100%;height: 200px;"}),
         label="Актеры",
     )
 
@@ -144,7 +146,9 @@ class MovieForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-control"}),
     )
     genre = forms.ModelMultipleChoiceField(
-        queryset=Genre.objects.all(), widget=forms.CheckboxSelectMultiple, label="Жанры"
+        queryset=Genre.objects.all(),
+        widget=Select2MultipleWidget(attrs={"style": "width: 100%;height: 200px;"}),
+        label="Жанры",
     )
 
     category = forms.ModelChoiceField(
@@ -193,3 +197,74 @@ class UpdateStatusForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ("status",)
+
+
+class GetActorForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Имя актера",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Actor
+        fields = ("name",)
+
+
+class GetCategoryForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Название категории",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Category
+        fields = ("name",)
+
+
+class GetGenreForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Название жанра",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Genre
+        fields = ("name",)
+
+
+class GetDirectorForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Имя режиссера",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Director
+        fields = ("name",)
+
+
+class GetMovieForm(forms.ModelForm):
+    title = forms.CharField(
+        label="Название фильма",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=False,
+    )
+
+    class Meta:
+        model = Movie
+        fields = ("title",)
+
+
+class DeleteUserForm(forms.Form):
+    username = forms.CharField(
+        label="Имя пользователя",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ("username",)

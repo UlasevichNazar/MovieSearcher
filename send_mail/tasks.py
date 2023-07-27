@@ -10,6 +10,19 @@ User = get_user_model()
 
 @app.task
 def send_email(user_id):
+    """
+    The send_email function sends an email to the user with a random movie
+    recommendation. The function takes in one argument, which is the id of the user
+    to send an email to. It then gets that user from our database and generates a
+    random movie recommendation for them by getting a random Movie object from our
+    database. We then generate a URL for this movie using Django's reverse function,
+    which allows us to get URLs based on their name and arguments (in this case we're
+    using it with movie_detail view name and passing in kwargs={slug: random_movie}
+
+    :param user_id: Get the user object from the database
+    :return: None
+    """
+
     user = User.objects.get(pk=user_id)
     random_movie = Movie.objects.order_by("?").first()
     movie_url = reverse("movie_detail", kwargs={"slug": random_movie.slug})

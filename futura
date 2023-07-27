@@ -1,0 +1,4 @@
+{% if request.user == review.user or request.user == request.user.is_superuser or-->
+<!--                                request.user == request.user.is_staff%}-->
+
+<!--                                {% endif %}-->

@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 
 from api.permissions import IsManager
-from api.serializers.genre_serializer.api import GenreSerializer
+from api.serializers.genre.api import GenreSerializer
 from movies.models import Genre
 
 

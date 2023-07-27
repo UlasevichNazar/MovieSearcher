@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.serializers.movies_serializers.internal import MovieInternalSerializer
+from api.serializers.movies.internal import MovieInternalSerializer
 from api.serializers.user_serializer.internal import UserInternalSerializer
 from movies.models import Review
 

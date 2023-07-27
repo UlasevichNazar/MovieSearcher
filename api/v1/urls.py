@@ -17,6 +17,7 @@ from api.views.genre_view import UpdateDeleteGenre
 from api.views.movie_image_view import MovieImageCreateView
 from api.views.movie_image_view import MovieImageListView
 from api.views.movie_image_view import MovieImageUpdateDeleteView
+from api.views.movie_views import BestMoviesView
 from api.views.movie_views import MovieCreateView
 from api.views.movie_views import MovieListView
 from api.views.movie_views import MovieRetrieveView
@@ -25,6 +26,10 @@ from api.views.rating_view import RatingView
 from api.views.review_view import CreateReviewView
 from api.views.review_view import DestroyReviewView
 from api.views.review_view import ReviewView
+from api.views.user_profile import UserProfileUpdateView
+from api.views.user_profile import UserProfileView
+from api.views.user_view import DeleteUserView
+from api.views.user_view import GetUserView
 
 router = DefaultRouter()
 router.register("rating", RatingView, basename="rating")
@@ -38,6 +43,7 @@ movie_urlpatterns = [
         MovieUpdateDestroyView.as_view(),
         name="movie_update_destroy_view",
     ),
+    path("best-movies/", BestMoviesView.as_view(), name="best_movie_view"),
 ]
 
 review_urlpatterns = [
@@ -62,7 +68,7 @@ actors_urlpatterns = [
 ]
 
 director_urlpatterns = [
-    path("director/", DirectorListView.as_view(), name="director_list"),
+    path("director/", DirectorListView.as_view(), name="directors_list"),
     path(
         "director/<int:pk>/", DirectorRetrieveView.as_view(), name="director_retrieve"
     ),
@@ -112,6 +118,22 @@ reg_login_urlpatterns = [
     path("auth/", include("djoser.urls.jwt")),
 ]
 
+user_profile_urlpatterns = [
+    path("user_profile/", UserProfileView.as_view(), name="user_profiles"),
+    path(
+        "user_profile/<int:pk>/",
+        UserProfileUpdateView.as_view(),
+        name="update_user_profile",
+    ),
+]
+user_urlpatterns = [
+    path("user/", GetUserView.as_view(), name="all_users"),
+    path("user/delete/<int:pk>/", DeleteUserView.as_view(), name="delete_user_view"),
+]
+
+select2_urlpatterns = [
+    path("select2/", include("django_select2.urls")),
+]
 urlpatterns = (
     movie_urlpatterns
     + review_urlpatterns
@@ -121,4 +143,8 @@ urlpatterns = (
     + director_urlpatterns
     + category_urlpatterns
     + genre_urlpatterns
+    + movie_image_urlpatterns
+    + user_profile_urlpatterns
+    + user_urlpatterns
+    + select2_urlpatterns
 )

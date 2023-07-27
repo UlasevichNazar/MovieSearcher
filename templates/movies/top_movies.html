@@ -19,6 +19,11 @@
                         <a href="{% url 'movie_detail' movie.slug %}" class="movie-link"><h4
                                 class="movie-title">{{ movie.title }}</h4></a>
 
+                        <p class="movie-rating">Категория: {{movie.category}}</p>
+                        <p class="movie-rating">Жанр: {% for genre in movie.genre.all %}
+                            {{genre.name}}
+                            {% if not forloop.last %}, {% endif %}
+                            {% endfor %}</p>
 
                         <p class="movie-rating">Рейтинг: {{ movie.average_rating }}</p>
                     </div>
