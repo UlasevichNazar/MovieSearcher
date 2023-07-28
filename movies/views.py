@@ -14,11 +14,12 @@ from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from movies import models
-from movies.forms import ActorForm, EditReviewForm
+from movies.forms import ActorForm
 from movies.forms import AddReviewForm
 from movies.forms import CategoryForm
 from movies.forms import DeleteUserForm
 from movies.forms import DirectorForm
+from movies.forms import EditReviewForm
 from movies.forms import GenreForm
 from movies.forms import GetActorForm
 from movies.forms import GetCategoryForm
@@ -1116,8 +1117,12 @@ def edit_review(request, review_id):
         form = EditReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect('movie_detail', slug=review.movie.slug)
+            return redirect("movie_detail", slug=review.movie.slug)
     else:
         form = EditReviewForm(instance=review)
 
-    return render(request, 'movies/edit_review.html', {'form': form, 'review': review})
+    return render(
+        request,
+        "movies/edit_review.html",
+        {"form": form, "review": review, "categories": Category.objects.all()},
+    )

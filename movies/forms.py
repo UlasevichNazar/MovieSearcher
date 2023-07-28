@@ -271,6 +271,11 @@ class DeleteUserForm(forms.Form):
 
 
 class EditReviewForm(forms.ModelForm):
+    text = forms.CharField(
+        label="Комментарий",
+        widget=forms.Textarea(attrs={"rows": 5, "cols": 40, "class": "form-control"}),
+    )
+
     class Meta:
         model = Review
-        fields = ['text']
+        fields = ("text",)
