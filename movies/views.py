@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.db.models import Avg
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -13,11 +14,12 @@ from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from movies import models
-from movies.forms import ActorForm, EditReviewForm
+from movies.forms import ActorForm
 from movies.forms import AddReviewForm
 from movies.forms import CategoryForm
 from movies.forms import DeleteUserForm
 from movies.forms import DirectorForm
+from movies.forms import EditReviewForm
 from movies.forms import GenreForm
 from movies.forms import GetActorForm
 from movies.forms import GetCategoryForm
@@ -153,7 +155,6 @@ class MovieDetail(PoiskList, generic.DetailView):
         :param *args: Send a non-keyworded variable length argument list to the function
         :param **kwargs: Pass keyworded, variable-length argument list
         :return: A redirect to the movie detail page
-        :doc-author: Trelent
         """
         movie = self.get_object()
         user = request.user
@@ -168,7 +169,9 @@ class MovieDetail(PoiskList, generic.DetailView):
             rating = form.save(commit=False)
             rating.user = user
             rating.movie = movie
-            print(rating)
+            if rating.rating < 0 or rating.rating > 10:
+                raise ValidationError("Rating value must be between 0 and 10.")
+            rating.save()
             rating.save()
 
         return redirect("movie_detail", slug=movie.slug)
@@ -303,6 +306,7 @@ class Search(PoiskList, generic.ListView):
         movies = self.get_queryset().distinct()
         context["s"] = f'q={self.request.GET.get("s")}&'
         context["movies"] = movies
+        context["title"] = "Поиск фильма"
         context["no_results"] = len(movies) == 0
         context["categories"] = Category.objects.all()
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
@@ -713,7 +717,6 @@ def category_list(request):
 
     if search_query:
         categories = categories.filter(name__icontains=search_query)
-        # if not categories:
 
     return render(
         request, "movies/category_list.html", {"categories": categories, "form": form}
@@ -1114,8 +1117,12 @@ def edit_review(request, review_id):
         form = EditReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect('movie_detail', slug=review.movie.slug)
+            return redirect("movie_detail", slug=review.movie.slug)
     else:
         form = EditReviewForm(instance=review)
 
-    return render(request, 'movies/edit_review.html', {'form': form, 'review': review})
+    return render(
+        request,
+        "movies/edit_review.html",
+        {"form": form, "review": review, "categories": Category.objects.all()},
+    )

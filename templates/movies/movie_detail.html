@@ -146,14 +146,13 @@
                         Комментарии пользователей
                     </h3>
 
-                    <div class="pressed-button" onclick="toggleMediaContainer()">Открыть/Закрыть</div>
 
                     <!-- Контейнер с медиа-элементами -->
                     {% for review in movie.reviews.all %}
-                    <div class="media py-5">
+                    <div class="media py-5" style="width: 100%;">
                         <img src="{{ review.user.profile.profile_pic.url }}" class="custom-media-left mr-4"
                              style="width:100px;height:100px;" alt="image">
-                        <div class="media-body mt-4">
+                        <div class="media-body mt-4" style="width: 100%;">
                             <h5 class="mt-0 editContent">
                                 {{ review.user.username }}
                             </h5>
@@ -164,13 +163,17 @@
                             </div>
 
                             {% if review.user == request.user or request.user.is_superuser or request.user.is_staff %}
-                            <form action="{% url 'delete_review' review.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="pressed-button">Удалить</button>
-                            </form>
-                            <a href="{% url 'edit_review' review.id%}">
-                                <button class="pressed-button" style="cursor: pointer;">Изменить</button>
-                            </a>
+                            <div style="display: flex;">
+                                <form action="{% url 'delete_review' review.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="pressed-button">Удалить</button>
+                                </form>
+                                {% if review.user == request.user %}
+                                <a href="{% url 'edit_review' review.id%}">
+                                    <button class="pressed-button" style="cursor: pointer;">Изменить</button>
+                                </a>
+                                {% endif %}
+                            </div>
                             {% endif %}
                         </div>
                     </div>

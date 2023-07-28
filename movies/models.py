@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -8,7 +9,7 @@ from config import settings
 
 
 class AbstractModel(models.Model):
-    name = models.CharField("Имя", max_length=100)
+    name = models.CharField("Имя", max_length=100, blank=False, null=False)
     description = models.TextField("Описание")
 
     def __str__(self):
@@ -68,6 +69,11 @@ class Movie(models.Model):
     def get_absolute_url(self):
         return reverse("movie_detail", kwargs={"slug": self.slug})
 
+    def save(self, *args, **kwargs):
+        if not self.title or not self.slug:
+            raise ValueError("Название фильма или url фильма не может быть пустым.")
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "Фильм"
         verbose_name_plural = "Фильмы"
@@ -77,11 +83,16 @@ class Movie(models.Model):
 
 # Модель категории
 class Category(AbstractModel):
-    url = models.SlugField("URL", max_length=100)
+    url = models.SlugField("URL", max_length=100, blank=False)
 
     class Meta(AbstractModel.Meta):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
+    def save(self, *args, **kwargs):
+        if not self.name or not self.url:
+            raise ValueError("Имя или url категории не может быть пустым.")
+        super().save(*args, **kwargs)
 
 
 # Модель кадры из фильма
@@ -102,6 +113,13 @@ class Movie_image(models.Model):
         verbose_name = "Изображение фильма"
         verbose_name_plural = "Изображения фильмов"
 
+    def save(self, *args, **kwargs):
+        if not self.name or not self.image:
+            raise ValueError(
+                "Имя или картинка в постерах к  фильму не может быть пустым."
+            )
+        super().save(*args, **kwargs)
+
 
 # Модель Жанр
 class Genre(AbstractModel):
@@ -110,6 +128,11 @@ class Genre(AbstractModel):
     class Meta(AbstractModel.Meta):
         verbose_name = "Жанр"
         verbose_name_plural = "Жанры"
+
+    def save(self, *args, **kwargs):
+        if not self.name or not self.slug:
+            raise ValueError("Имя или url жанра не может быть пустым.")
+        super().save(*args, **kwargs)
 
 
 # Модель Режиссер
@@ -120,6 +143,11 @@ class Director(AbstractModel):
         verbose_name = "Режиссер"
         verbose_name_plural = "Режиссеры"
 
+    def save(self, *args, **kwargs):
+        if not self.name:
+            raise ValueError("Имя режисера не может быть пустым.")
+        super().save(*args, **kwargs)
+
 
 # Модель Актер
 class Actor(AbstractModel):
@@ -128,6 +156,11 @@ class Actor(AbstractModel):
     class Meta(AbstractModel.Meta):
         verbose_name = "Актер"
         verbose_name_plural = "Актеры"
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            raise ValueError("Имя актера не может быть пустым.")
+        super().save(*args, **kwargs)
 
 
 class Review(models.Model):
@@ -142,6 +175,11 @@ class Review(models.Model):
     movie = models.ForeignKey(
         Movie, on_delete=models.CASCADE, related_name="reviews", verbose_name="Фильм"
     )
+
+    def save(self, *args, **kwargs):
+        if not self.text:
+            raise ValueError("Комментарий не может быть пустым.")
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Отзыв"
@@ -167,6 +205,11 @@ class Raiting(models.Model):
     rating = models.PositiveSmallIntegerField(
         "Оценка", validators=[MinValueValidator(0), MaxValueValidator(10)]
     )
+
+    def save(self, *args, **kwargs):
+        if not (0 <= self.rating <= 10):
+            raise ValidationError("Оценка должна быть в диапазоне от 0 до 10.")
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Рейтинг"

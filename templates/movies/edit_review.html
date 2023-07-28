@@ -4,13 +4,17 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h3 style="color:white;">Изменение комментария:</h3>
-            <form method="post">
+            <h3 style="color:white;text-align: center;">Изменение комментария:</h3>
+            <form method="post" style="text-align: center;">
                 {% csrf_token %}
                 <b style="color:white"> {{ form.as_p }}</b>
+                <br>
                 <div style="text-align: center;">
                     <button type="submit" class="pressed-button" style="cursor: pointer;">Сохранить</button>
-                    <button type="button" class="pressed-button" onclick="window.location.href='{% url 'movie_detail' slug=review.movie.slug %}'" style="cursor: pointer;">Отменить</button>
+                    <button type="button" class="pressed-button"
+                            onclick="window.location.href='{% url 'movie_detail' slug=review.movie.slug %}'"
+                            style="cursor: pointer;">Отменить
+                    </button><br><br><br>
                 </div>
             </form>
         </div>

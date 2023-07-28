@@ -27,73 +27,71 @@
 
 
     <style>
-  .menu-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+        .menu-button {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
 
-  .menu-button:hover {
-    background-color: #45a049;
-  }
+        .menu-button:hover {
+          background-color: #45a049;
+        }
 
-  .media-container {
-    display: none;
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+        .media-container {
+          display: none;
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
 
-  .custom-media-left {
-  display: inline-block;
-  width: 64px;
+        .custom-media-left {
+        display: inline-block;
+        width: 64px;
 
-.fixed-width-text {
-  width: 200px;
-  word-wrap: break-word;
-}
-body {
-      color: white;
-      padding-top: 40px;
-    }
-    .profile-card {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f8f9fa;
-    }
-    .profile-card h2 {
-      margin-bottom: 20px;
-    }
-    .profile-image {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
-    }
-    .last-login {
-      margin-top: 0.1px;
-      padding: 10px;
-      border: 1px solid #ced4da;
-      background-color: #f1f1f1;
-    }
-    .form-control[readonly] {
-      background-color: #f8f9fa;
-    }
-    .my_form .form-control{
-        font-size: 12px;
-        height: 30px;
-        padding: 4px 8px;
-    }
-  }
-
-
+      .fixed-width-text {
+        width: 200px;
+        word-wrap: break-word;
+      }
+      body {
+            color: white;
+            padding-top: 40px;
+          }
+          .profile-card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+          }
+          .profile-card h2 {
+            margin-bottom: 20px;
+          }
+          .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+          }
+          .last-login {
+            margin-top: 0.1px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            background-color: #f1f1f1;
+          }
+          .form-control[readonly] {
+            background-color: #f8f9fa;
+          }
+          .my_form .form-control{
+              font-size: 12px;
+              height: 30px;
+              padding: 4px 8px;
+          }
+        }
 
 
     </style>
@@ -101,17 +99,7 @@ body {
 </head>
 <body style="background-color: #4B1212">
 
-<script>
-  function toggleMediaContainer() {
-    var container = document.getElementById("media-container");
-    container.style.display = container.style.display === "none" ? "block" : "none";
-  }
 
-
-
-
-
-</script>
 <div id="page" class="page">
     <div id="home" style="background-color: #4B1212">
         {% include 'include/header.html' %}

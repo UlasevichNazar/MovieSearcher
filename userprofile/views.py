@@ -43,6 +43,7 @@ class ShowProfilePageView(DetailView):
         context = super().get_context_data(**kwargs)
         context["page_profile"] = self.object
         context["categories"] = Category.objects.all()
+        context["title"] = f"Профиль пользователя {self.request.user.username}"
 
         return context
 
@@ -62,6 +63,8 @@ def edit_profile(request):
     :param request: Get the user information
     :return: A render function
     """
+    form = UserProfileForm(instance=request.user)
+    profile_form = UserProfileForm(instance=request.user.profile)
     if request.method == "POST":
         form = UserProfileForm(request.POST, instance=request.user)
         profile_form = UserProfileForm(
@@ -82,5 +85,6 @@ def edit_profile(request):
             "form": form,
             "profile_form": profile_form,
             "categories": Category.objects.all(),
+            "title": "Изменить профиль",
         },
     )
