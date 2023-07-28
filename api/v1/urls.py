@@ -90,7 +90,7 @@ category_urlpatterns = [
 ]
 
 genre_urlpatterns = [
-    path("genre/create/", CreateGenreView.as_view(), name="category_create"),
+    path("genre/create/", CreateGenreView.as_view(), name="genre_create"),
     path(
         "genre/admin/<int:pk>/",
         UpdateDeleteGenre.as_view(),
