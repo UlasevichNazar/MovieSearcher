@@ -7,6 +7,7 @@ from django.views.generic import CreateView
 
 from .forms import LoginUserForm
 from .forms import RegisterUserForm
+from movies.models import Category
 from send_mail.tasks import send_email_per
 from userprofile.models import Profile
 
@@ -40,6 +41,7 @@ class Register(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Регистрация"
+        context["categories"] = Category.objects.all()
         return context
 
 
@@ -61,6 +63,7 @@ class LoginUser(LoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Войти"
+        context["categories"] = Category.objects.all()
         return context
 
 
