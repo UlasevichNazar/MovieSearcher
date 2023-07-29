@@ -29,7 +29,6 @@ class TestCreateMovieImages:
             movie.movie_images.get(name="Test image for movie #1").name
             == new_movie_image[0].name
         )
-
         new_movie_image[0].delete()
 
     def test_create_movie_image_successfully_by_manager(
@@ -54,6 +53,7 @@ class TestCreateMovieImages:
             movie.movie_images.get(name="Test image for movie #1").name
             == new_movie_image[0].name
         )
+        new_movie_image[0].delete()
 
     def test_create_movie_image_permission_false(self, api_client, user, movie):
         api_client.force_authenticate(user)

@@ -1,7 +1,10 @@
 from django.core.exceptions import ValidationError
+from django.core.files.storage import default_storage
 from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 
@@ -81,6 +84,12 @@ class Movie(models.Model):
         indexes = [models.Index(fields=["-publish"])]
 
 
+@receiver(pre_delete, sender=Movie)
+def movie_pre_delete(sender, instance, **kwargs):
+    if instance.poster:
+        default_storage.delete(instance.poster.path)
+
+
 # Модель категории
 class Category(AbstractModel):
     url = models.SlugField("URL", max_length=100, blank=False)
@@ -119,6 +128,13 @@ class Movie_image(models.Model):
                 "Имя или картинка в постерах к  фильму не может быть пустым."
             )
         super().save(*args, **kwargs)
+
+
+@receiver(pre_delete, sender=Movie_image)
+def movie_image_pre_delete(sender, instance, **kwargs):
+    # Удаление файла изображения
+    if instance.image:
+        default_storage.delete(instance.image.path)
 
 
 # Модель Жанр

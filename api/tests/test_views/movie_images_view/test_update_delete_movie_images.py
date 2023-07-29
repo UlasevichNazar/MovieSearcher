@@ -32,6 +32,7 @@ class TestUpdateDeleteMovieImage:
         assert updating_movie_image.exists()
         assert updating_movie_image[0].name == "Updating Test image for movie #1"
         assert updating_movie_image[0].movie.title == "Test Movie"
+        updating_movie_image[0].delete()
 
     def test_update_movie_image_successfully_by_manager(
         self, api_client, manager, movie, movie_image
@@ -59,6 +60,7 @@ class TestUpdateDeleteMovieImage:
         assert updating_movie_image.exists()
         assert updating_movie_image[0].name == "Updating Test image for movie #1"
         assert updating_movie_image[0].movie.title == "Test Movie"
+        updating_movie_image[0].delete()
 
     def test_update_movie_image_permission_false(
         self, api_client, user, movie_image, movie
