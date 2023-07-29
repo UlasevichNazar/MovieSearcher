@@ -26,6 +26,7 @@ from api.views.rating_view import RatingView
 from api.views.review_view import CreateReviewView
 from api.views.review_view import DestroyReviewView
 from api.views.review_view import ReviewView
+from api.views.review_view import UpdateReviewView
 from api.views.user_profile import UserProfileUpdateView
 from api.views.user_profile import UserProfileView
 from api.views.user_view import DeleteUserView
@@ -49,6 +50,7 @@ movie_urlpatterns = [
 review_urlpatterns = [
     path("reviews/", ReviewView.as_view(), name="reviews"),
     path("reviews/create/", CreateReviewView.as_view(), name="create_reviews"),
+    path("reviews/update/<int:pk>/", UpdateReviewView.as_view(), name="update_reviews"),
     path(
         "reviews/delete/<int:pk>/", DestroyReviewView.as_view(), name="destroy_reviews"
     ),
