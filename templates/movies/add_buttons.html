@@ -11,14 +11,16 @@
                 <a href="{% url 'get_user' %}">
                     <button class="pressed-button" style="cursor: pointer;">Изменить пользователя</button>
                 </a>
-                {% if user.is_staff or user.is_superuser %}
+            </div>
+            {% endif %}
+            {% if user.is_staff or user.is_superuser %}
+            <div style="text-align:center">
                 <a href="{% url 'delete_user' %}">
                     <button class="pressed-button" style="cursor: pointer;">Удалить пользователя</button>
                 </a>
-                {% endif %}
             </div>
-            <br><br><br>
             {% endif %}
+            <br><br><br>
             <div style="text-align:center">
                 <a href="{% url 'add_genre' %}" style="text-decoration: none;">
                     <button class="pressed-button" style="cursor: pointer;">Добавить жанр</button>
@@ -37,7 +39,7 @@
                 </a>
             </div>
             <br><br><br>
-            <div style="text-align:center" >
+            <div style="text-align:center">
                 <a href="{% url 'add_actor' %}" style="cursor: pointer; text-decoration: none;">
                     <button class="pressed-button">Добавить актера</button>
                 </a>

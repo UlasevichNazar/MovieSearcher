@@ -188,9 +188,7 @@ class GetUserForm(forms.Form):
 class UpdateStatusForm(forms.ModelForm):
     status = forms.ChoiceField(
         label="Статус",
-        choices=[
-            (role.value, role.value) for role in Role
-        ],  # Используем значение вместо имени
+        choices=[(role.value, role.value) for role in Role],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 

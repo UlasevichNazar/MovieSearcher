@@ -14,6 +14,8 @@ from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from movies import models
+from movies.exceptions import DoesNotDelete
+from movies.exceptions import DoesNotDeleteYourself
 from movies.forms import ActorForm
 from movies.forms import AddReviewForm
 from movies.forms import CategoryForm
@@ -278,7 +280,8 @@ class FilterMovies(PoiskList, generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["movies"] = self.get_queryset().distinct()
+        filtered_movies = self.get_queryset().distinct()
+        context["movies"] = filtered_movies
         context["categories"] = Category.objects.all()
         context["year"] = "".join([x for x in self.request.GET.getlist("year")])
         context["genre"] = "".join([x for x in self.request.GET.getlist("genre")])
@@ -670,9 +673,11 @@ def update_status(request):
         if form.is_valid():
             new_status = form.cleaned_data["status"]
             if new_status == "администратор":
-                user.is_superuser = True
                 user.is_staff = True
-            if new_status == "менеджер":
+                user.is_superuser = True
+                user.is_active = True
+
+            elif new_status == "менеджер":
                 user.is_superuser = False
                 user.is_staff = True
             else:
@@ -1088,11 +1093,21 @@ def delete_user(request):
             username = form.cleaned_data["username"]
             try:
                 user = get_user_model().objects.get(username=username)
+                if request.user.status == "менеджер" and user.is_superuser:
+                    raise DoesNotDelete
+                elif user == request.user:
+                    raise DoesNotDeleteYourself
                 user.delete()
                 messages.success(request, f"Пользователь {username} успешно удален.")
                 return redirect("add_buttons")
             except get_user_model().DoesNotExist:
                 messages.error(request, f"Пользователь {username} не найден.")
+            except DoesNotDelete:
+                messages.error(
+                    request, f"У вас нет прав на удаление пользователя {username}"
+                )
+            except DoesNotDeleteYourself:
+                messages.error(request, "Вы не можете удалить сами себя")
     else:
         form = DeleteUserForm()
 

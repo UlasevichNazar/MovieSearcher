@@ -73,31 +73,40 @@
                         <li style="font-size: 12px;list-style: none;">
                             <a><b>Количество оценок:</b>
                                 {{ rating_count }}
+
                             </a>
-                            {% if request.user.is_anonymous %}
-                            <button type="submit" class="pressed-button">
-                                <a href="{% url 'django_login' %}" style="color: white;text-decoration: none;">Поставить
-                                    оценку</a></button>
-                            {% endif %}
-                            {% if rating_form %}
-                            {% if rating_id %}
-                            <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
-                                {% csrf_token %}
-                                <button type="submit" class="pressed-button">Изменить оценку</button>
-                            </form>
-                            {% else %}
-                            <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="id_rating">Оценка:</label>
-                                    {{ rating_form.rating.errors }}
-                                    <input type="range" id="id_rating" name="rating" min="0" max="10"
-                                           class="form-control" required>
-                                </div>
-                                <button type="submit" class="pressed-button">Оценить</button>
-                            </form>
-                            {% endif %}
-                            {% endif %}
+                        </li>
+                        {% if request.user.is_authenticated %}
+                        <li style="font-size: 12px;list-style: none;">
+                            <a><b>Ваша оценка:</b>
+                                {{ rating|default:"Нет оценки" }}
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if request.user.is_anonymous %}
+                        <button type="submit" class="pressed-button">
+                            <a href="{% url 'django_login' %}" style="color: white;text-decoration: none;">Поставить
+                                оценку</a></button>
+                        {% endif %}
+                        {% if rating_form %}
+                        {% if rating_id %}
+                        <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
+                            {% csrf_token %}
+                            <button type="submit" class="pressed-button">Изменить оценку</button>
+                        </form>
+                        {% else %}
+                        <form method="POST" action="{% url 'movie_detail' slug=object.slug %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_rating">Оценка:</label>
+                                {{ rating_form.rating.errors }}
+                                <input type="range" id="id_rating" name="rating" min="0" max="10"
+                                       class="form-control" required>
+                            </div>
+                            <button type="submit" class="pressed-button">Оценить</button>
+                        </form>
+                        {% endif %}
+                        {% endif %}
 
 
                     </ul>
