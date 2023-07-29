@@ -9,7 +9,9 @@ from movies.models import Director
 from movies.models import Genre
 from movies.models import Movie
 from movies.models import Movie_image
+from movies.models import Review
 from user.admin import User
+from userprofile.models import Profile
 
 
 @pytest.fixture
@@ -122,3 +124,17 @@ def movie_image(movie) -> Movie_image:
         name="Test movie image", image="movie_image.jpg", movie=movie
     )
     return movie_image
+
+
+@pytest.fixture
+def review(user, movie) -> Review:
+    review = Review.objects.create(user=user, text="test review", movie=movie)
+    return review
+
+
+@pytest.fixture
+def profile(user) -> Profile:
+    profile = Profile.objects.create(
+        user=user, bio="test bio", profile_pic="test_profile_pic.jpg"
+    )
+    return profile

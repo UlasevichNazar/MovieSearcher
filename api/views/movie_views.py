@@ -5,8 +5,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.utils import extend_schema_view
 from rest_framework import generics
+from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 
 from api.permissions import IsManager
 from api.serializers.movies.api import AdminMovieViewSerializer
@@ -32,6 +34,15 @@ class MovieListView(generics.ListAPIView):
         if self.request.user.is_superuser or self.request.user.is_staff:
             return AdminMovieViewSerializer
         return MovieViewSerializer
+
+    def list(self, request, *args, **kwargs):
+        if request.query_params:
+            return Response(
+                {"detail": "Query parameters are not allowed."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return super().list(request, *args, **kwargs)
 
 
 @extend_schema_view(
@@ -75,6 +86,13 @@ class MovieUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         slug = self.kwargs.get(self.lookup_field)
         obj = get_object_or_404(queryset, **{self.lookup_field: slug})
         return obj
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class BestMoviesView(generics.ListAPIView):

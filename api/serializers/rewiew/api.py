@@ -21,3 +21,9 @@ class CreateReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ("text", "movie", "user")
         read_only_fields = ("user",)
+
+
+class UpdateReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ("text",)

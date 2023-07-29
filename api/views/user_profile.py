@@ -19,7 +19,13 @@ class UserProfileUpdateView(generics.UpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileUpdateSerializer
     permission_classes = (IsOwnerUser,)
+
     lookup_field = "pk"
+
+    def get_permissions(self):
+        if self.request.method == "PUT" or self.request.method == "PATCH":
+            return [IsOwnerUser()]
+        return super().get_permissions()
 
     def get_object(self):
         queryset = self.get_queryset()
