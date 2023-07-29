@@ -1,0 +1,30 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE_DJANGO }}" > .env
+      - name: Build Docker container
+        run: |
+          docker-compose up -d --build
+          docker-compose exec -T django python manage.py migrate
+      - name: Pytests
+        run: docker-compose exec -T django pytest
+      - name: Stop Containers
+        if: always()
+        run: docker-compose down
