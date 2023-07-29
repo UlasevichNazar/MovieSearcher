@@ -341,23 +341,24 @@ EMAIL_PORT = env.int("EMAIL_PORT")
 # CELERY AND REDIS
 ###############################################
 # CELERY settings
-CELERY_BROKER_URL = "redis://redis:6379"
-CELERY_RESULT_BACKEND = "redis://redis:6379"
-CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
+CELERY_BROKER_URL = env.str("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env.str("CELERY_RESULT_BACKEND")
+CELERY_ACCEPT_CONTENT = env.list("CELERY_ACCEPT_CONTENT")
+CELERY_TASK_SERIALIZER = env.str("CELERY_TASK_SERIALIZER")
+CELERY_RESULT_SERIALIZER = env.str("CELERY_RESULT_SERIALIZER")
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://moviesearcher-redis-1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    }
-}
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://moviesearcher-redis-1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     }
+# }
+
+SESSION_ENGINE = env.str("SESSION_ENGINE")
+SESSION_CACHE_ALIAS = env.str("SESSION_CACHE_ALIAS")
 
 ###########################################
 # DRF SPECTACULAR

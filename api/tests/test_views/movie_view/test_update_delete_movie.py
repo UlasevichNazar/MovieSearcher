@@ -36,6 +36,7 @@ class TestUpdateDeleteMovie:
         assert updating_movie[0].title == "Update Test Movie"
         assert updating_movie[0].description == "Update Test description"
         assert updating_movie[0].country == "Update Test Country"
+        updating_movie[0].delete()
 
     def test_update_successfully_movie_by_manager(self, api_client, manager, movie):
         api_client.force_authenticate(manager)
@@ -66,6 +67,7 @@ class TestUpdateDeleteMovie:
         assert updating_movie[0].title == "Update Test Movie"
         assert updating_movie[0].description == "Update Test description"
         assert updating_movie[0].country == "Update Test Country"
+        updating_movie[0].delete()
 
     def test_update_movie_permissions_false(self, api_client, user, movie):
         api_client.force_authenticate(user)

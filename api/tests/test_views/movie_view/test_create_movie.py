@@ -36,6 +36,7 @@ class TestCreateMovie:
         new_movie = Movie.objects.filter(title="Test Movie")
         assert response.status_code == 201
         assert new_movie.exists()
+        new_movie[0].delete()
 
     def test_create_movie_successfully_by_manager(
         self, api_client, manager, category, genre, director, actor
@@ -66,6 +67,7 @@ class TestCreateMovie:
         new_movie = Movie.objects.filter(title="Test Movie")
         assert response.status_code == 201
         assert new_movie.exists()
+        new_movie[0].delete()
 
     def test_create_movie_permissions_false(
         self, api_client, user, category, genre, director, actor
