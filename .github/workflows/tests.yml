@@ -11,7 +11,7 @@ on:
       - main
 
 jobs:
-  Lint:
+  Test:
     runs-on: ubuntu-latest
 
     steps:
