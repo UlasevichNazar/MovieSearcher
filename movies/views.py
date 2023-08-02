@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Avg
+from django.db.models import Count
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -81,6 +82,20 @@ class PoiskList:
                 .values_list("year", flat=True)
                 .distinct()
             )
+        )
+
+    def get_country(self):
+        """
+        The get_category function returns all the countries in the database.
+        :param self: Represent the instance of the object itself
+        :return: All the countries in the database
+        """
+        return list(
+            Movie.objects.filter(status=Movie.Status.PUBLISHED)
+            .values("country")
+            .annotate(country_count=Count("country"))
+            .filter(country_count__gt=0)
+            .values_list("country", flat=True)
         )
 
 
@@ -276,6 +291,8 @@ class FilterMovies(PoiskList, generic.ListView):
             queryset = queryset.filter(genre__in=self.request.GET.getlist("genre"))
         if "year" in self.request.GET:
             queryset = queryset.filter(year__in=self.request.GET.getlist("year"))
+        if "country" in self.request.GET:
+            queryset = queryset.filter(country__in=self.request.GET.getlist("country"))
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -286,6 +303,7 @@ class FilterMovies(PoiskList, generic.ListView):
         context["year"] = "".join([x for x in self.request.GET.getlist("year")])
         context["genre"] = "".join([x for x in self.request.GET.getlist("genre")])
         context["category"] = "".join([x for x in self.request.GET.getlist("category")])
+        context["country"] = "".join([x for x in self.request.GET.getlist("country")])
         context["title"] = "Поиск фильма"
         context["soon_movies"] = Movie.objects.filter(status=Movie.Status.DRAFT)
         context["reviews"] = Review.objects.order_by("-id")
